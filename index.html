@@ -100,6 +100,16 @@ table.gantt td.gname{text-align:left;color:var(--text);padding-right:10px}
 .gcell.gs-doing{background:#f79009}
 .gcell.gs-todo{background:#d8dde5}
 .gcell.now{outline:2px solid var(--orange);outline-offset:-1px}
+/* ===== แท่งคู่ เป้าหมาย(บน)/ผลจริง(ล่าง) แบบ BCM ===== */
+table.gantt td{position:relative}
+.g2{display:flex;flex-direction:column;gap:1px;height:13px;border-radius:3px}
+.g2 .gp,.g2 .ga{height:6px;border-radius:2px;background:#eef0f4}
+.g2 .gp.on{background:linear-gradient(180deg,#f7b66a,#e0820c)}
+.g2 .ga.on{background:linear-gradient(180deg,#3cc88a,#067647)}
+.g2.now{outline:2px solid var(--orange);outline-offset:1px}
+.g2.gd{cursor:pointer}
+.g2.gd:hover .gp,.g2.gd:hover .ga{outline:1px solid var(--orange)}
+.g2.gd::after{content:"";position:absolute;width:4px;height:4px;border-radius:50%;background:var(--navy);margin:-9px auto 0;display:block;opacity:.55}
 .note{margin-top:12px;font-size:.8rem;background:var(--blue-bg);border-left:3px solid var(--blue);padding:9px 13px;border-radius:0 6px 6px 0;color:#1d4f9c}
 .issue{margin-top:8px;font-size:.8rem;background:var(--amber-bg);border-left:3px solid var(--amber);padding:9px 13px;border-radius:0 6px 6px 0;color:#93550c}
 
@@ -188,11 +198,10 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
       <span><i style="background:var(--amber-bg);border:1px solid var(--amber)"></i>ล่าช้าเล็กน้อย (&lt; 10 จุด)</span>
       <span><i style="background:var(--red-bg);border:1px solid var(--red)"></i>ล่าช้า (≥ 10 จุด)</span>
       <span><i style="background:#eef0f4"></i>ยังไม่ถึงกำหนด / รอรายงานผล</span>
-      <span style="color:var(--navy);font-weight:600;margin-left:4px">| สถานะรายเดือน (Gantt):</span>
-      <span><i style="background:#12b76a"></i>เสร็จสิ้น</span>
-      <span><i style="background:#f79009"></i>อยู่ระหว่างดำเนินการ</span>
-      <span><i style="background:#d8dde5"></i>ยังไม่ดำเนินการ</span>
-      <span><i style="background:#fff;box-shadow:inset 0 0 0 1.5px rgba(30,86,176,.4)"></i>ช่วงดำเนินการตามแผน</span>
+      <span style="color:var(--navy);font-weight:600;margin-left:4px">| กิจกรรมย่อย (Gantt):</span>
+      <span><i style="background:linear-gradient(180deg,#f7b66a,#e0820c)"></i>เป้าหมายตามแผน (แท่งบน)</span>
+      <span><i style="background:linear-gradient(180deg,#3cc88a,#067647)"></i>ผลปฏิบัติงานจริง (แท่งล่าง)</span>
+      <span><i style="background:#eef0f4"></i>ยังไม่ถึงกำหนด / รอรายงานผล</span>
     </div>
   </div>
 
@@ -451,7 +460,7 @@ function renderBar(){
 function ganttHTML(a){
   const done=a.subs.filter(sub=>subStatusAt(sub.c,curM)===WS_DONE).length;
   const cnt=` · เสร็จสิ้น ${done}/${a.subs.length} รายการ ณ ${MONTHS[curM].a} ${MONTHS[curM].y}`;
-  let h=`<div class="gtitle">กิจกรรมย่อย ผู้รับผิดชอบ และสถานะรายเดือน${cnt} · ช่องลงสีตามสถานะ · กรอบน้ำเงิน = ช่วงตามแผน · คลิกช่องเพื่อดูสถานะ</div><table class="gantt">`;
+  let h=`<div class="gtitle">กิจกรรมย่อย ผู้รับผิดชอบ และความก้าวหน้ารายเดือน${cnt} · แต่ละเดือนมี <b>แท่งบน</b> <span style="color:#e0820c">ส้ม</span>=เป้าหมายตามแผน · <b>แท่งล่าง</b> <span style="color:#067647">เขียว</span>=ผลปฏิบัติงานจริง · ช่องที่มีจุด ● คลิกดูรายละเอียด</div><table class="gantt">`;
   // แถวจัดกลุ่มปีงบประมาณ
   h+=`<tr><th class="gname"></th><th class="yr" colspan="12">ปี 2569</th><th class="yr ydiv" colspan="3">ปี 2570</th><th></th></tr>`;
   // แถวชื่อเดือน
@@ -473,8 +482,8 @@ function ganttHTML(a){
     const noteLine=s&&(s.note||s.issue)
       ?`<div style="font-size:.72rem;color:var(--muted);margin-top:2px">${s.note?'▸ '+s.note:''}${s.issue?' <span style="color:var(--amber)">⚠ '+s.issue+'</span>':''}</div>`:'';
     h+=`<tr><td class="gname"><b>${sub.c}</b> ${sub.n}<div><span class="owner">ผู้รับผิดชอบ: ${sub.o}</span></div>${noteLine}</td>`;
-    for(let i=0;i<NM;i++){const planned=(i>=sub.s&&i<=sub.e), st=sm[i]||'', scls=gStatusCls(st);
-      h+=`<td class="${i===Y2570_START?'ydiv':''}"><div class="gcell ${planned?'gp':''} ${scls} ${i===curM?'now':''} ${st?'mcell':''}"${st?` data-sub="${sub.c}" data-m="${i}" title="${st}"`:''}></div></td>`;}
+    for(let i=0;i<NM;i++){const planned=(i>=sub.s&&i<=sub.e), st=sm[i]||'', hasD=!!st;
+      h+=`<td class="${i===Y2570_START?'ydiv':''}"><div class="g2 ${i===curM?'now':''} ${hasD?'mcell gd':''}"${hasD?` data-sub="${sub.c}" data-m="${i}" title="คลิกดูรายละเอียด"`:''}><div class="gp ${planned?'on':''}"></div><div class="ga ${hasD?'on':''}"></div></div></td>`;}
     h+=`<td style="text-align:center">${wsChip(subStatusAt(sub.c,curM))}</td></tr>`;
   }
   h+='</table>';
