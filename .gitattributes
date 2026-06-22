@@ -1,0 +1,20 @@
+# Normalize line endings: store as LF in repo, force LF in working tree
+* text=auto eol=lf
+
+# Web / data files explicitly LF
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.csv  text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+
+# Binary files — never touch
+*.xlsx binary
+*.xls  binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
