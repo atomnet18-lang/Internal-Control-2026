@@ -441,20 +441,20 @@ const BLINK_COLOR='#e0820c';   // ส้มสด เข้ากับธีม
 const blinkMonthPlugin={
   id:'blinkMonth',
   afterDraw(chart){
-    const xs=chart.scales.x, ca=chart.chartArea;
-    if(curM==null||!xs||!ca)return;
-    const x=xs.getPixelForValue(curM);
-    const step=Math.abs(xs.getPixelForValue(1)-xs.getPixelForValue(0))||20;
-    const w=Math.max(14,step*0.62);
-    const t=(Math.sin(Date.now()/280)+1)/2;            // 0..1 จังหวะกระพริบ
-    const ctx=chart.ctx;
+    if(curM==null||!chart.scales.x||!chart.scales.y)return;
+    const ctx=chart.ctx, t=(Math.sin(Date.now()/280)+1)/2;   // 0..1 จังหวะกระพริบ
+    const ds=chart.data.datasets;
+    function pulse(meta,val,color){
+      if(val==null||!meta)return;
+      const p=meta.data[curM]; if(!p||!isFinite(p.x)||!isFinite(p.y))return;
+      ctx.beginPath();ctx.arc(p.x,p.y,6+7*t,0,6.2832);        // วงรัศมีขยาย+จาง (เรืองแสง)
+      ctx.globalAlpha=0.45*(1-t);ctx.fillStyle=color;ctx.fill();
+      ctx.beginPath();ctx.arc(p.x,p.y,4.5,0,6.2832);          // จุดทึบกระพริบ
+      ctx.globalAlpha=0.30+0.70*t;ctx.fillStyle=color;ctx.fill();
+    }
     ctx.save();
-    ctx.globalAlpha=0.10+0.24*t;                       // แถบคอลัมน์เดือน คลุมถึงป้ายเดือนใต้กราฟ
-    ctx.fillStyle=BLINK_COLOR;
-    ctx.fillRect(x-w/2,ca.top,w,chart.height-ca.top-2);
-    ctx.globalAlpha=0.35+0.5*t;                        // เส้นแนวตั้งในพื้นที่กราฟ
-    ctx.strokeStyle=BLINK_COLOR;ctx.lineWidth=2;
-    ctx.beginPath();ctx.moveTo(x,ca.top);ctx.lineTo(x,ca.bottom);ctx.stroke();
+    pulse(chart.getDatasetMeta(0),ds[0].data[curM],'#9aa7ba');   // จุดเป้าหมาย (แผน)
+    pulse(chart.getDatasetMeta(1),ds[1].data[curM],'#1e56b0');   // จุดผลทำงานจริง
     ctx.restore();
   }
 };
