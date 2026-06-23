@@ -453,8 +453,8 @@ const blinkMonthPlugin={
       ctx.globalAlpha=0.30+0.70*t;ctx.fillStyle=color;ctx.fill();
     }
     ctx.save();
-    pulse(chart.getDatasetMeta(0),ds[0].data[curM],'#9aa7ba');   // จุดเป้าหมาย (แผน)
-    pulse(chart.getDatasetMeta(1),ds[1].data[curM],'#1e56b0');   // จุดผลทำงานจริง
+    pulse(chart.getDatasetMeta(0),ds[0].data[curM],'#c9a13b');   // จุดเป้าหมาย (แผน)
+    pulse(chart.getDatasetMeta(1),ds[1].data[curM],'#006b3f');   // จุดผลทำงานจริง
     ctx.restore();
   }
 };
@@ -473,8 +473,8 @@ function renderScurve(){
   if(scurveChart)scurveChart.destroy();
   scurveChart=new Chart(document.getElementById('scurve'),{type:'line',plugins:[blinkMonthPlugin],
    data:{labels,datasets:[
-    {label:'เป้าหมายสะสม (แผน)',data:plan,borderColor:'#9aa7ba',borderDash:[6,4],pointRadius:3,pointBackgroundColor:'#9aa7ba',tension:.3,fill:false},
-    {label:'ผลงานสะสม (จริง)',data:act,borderColor:'#1e56b0',backgroundColor:'rgba(30,86,176,.10)',pointRadius:4,pointBackgroundColor:'#1e56b0',tension:.3,fill:true,spanGaps:false}]},
+    {label:'เป้าหมายสะสม (แผน)',data:plan,borderColor:'#c9a13b',borderDash:[6,4],pointRadius:3,pointBackgroundColor:'#c9a13b',tension:.3,fill:false},
+    {label:'ผลงานสะสม (จริง)',data:act,borderColor:'#006b3f',backgroundColor:'rgba(0,107,63,.10)',pointRadius:4,pointBackgroundColor:'#006b3f',tension:.3,fill:true,spanGaps:false}]},
    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{labels:{font:{family:'Sarabun',size:12}}},
      tooltip:{titleFont:{family:'Sarabun'},bodyFont:{family:'Sarabun'},callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y??'–'}%`}}},
@@ -490,8 +490,8 @@ function renderBar(){
   if(barChart)barChart.destroy();
   barChart=new Chart(document.getElementById('actbar'),{type:'bar',
    data:{labels,datasets:[
-    {label:'เป้าหมาย',data:t,backgroundColor:'#cbd5e1',borderRadius:4,barPercentage:.85},
-    {label:'ผลงาน',data:v,backgroundColor:'#1e56b0',borderRadius:4,barPercentage:.85}]},
+    {label:'เป้าหมาย',data:t,backgroundColor:'#c9a13b',borderRadius:4,barPercentage:.85},
+    {label:'ผลงาน',data:v,backgroundColor:'#006b3f',borderRadius:4,barPercentage:.85}]},
    options:{indexAxis:'y',maintainAspectRatio:false,
     plugins:{legend:{labels:{font:{family:'Sarabun',size:12}}},
      tooltip:{titleFont:{family:'Sarabun'},bodyFont:{family:'Sarabun'},
