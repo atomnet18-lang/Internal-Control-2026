@@ -436,6 +436,34 @@ function renderKPIs(){
      <div class="sub" style="margin-top:6px">เสร็จสิ้น · อยู่ระหว่างดำเนินการ · ยังไม่ดำเนินการ/ไม่ระบุ</div></div>`;
 }
 
+/* ===== ไฮไลต์ "กระพริบ" ที่เดือนซึ่งเลือกอยู่ บนแกนเดือนของ S-Curve ===== */
+const BLINK_COLOR='#e0820c';   // ส้มสด เข้ากับธีม
+const blinkMonthPlugin={
+  id:'blinkMonth',
+  afterDraw(chart){
+    const xs=chart.scales.x, ca=chart.chartArea;
+    if(curM==null||!xs||!ca)return;
+    const x=xs.getPixelForValue(curM);
+    const step=Math.abs(xs.getPixelForValue(1)-xs.getPixelForValue(0))||20;
+    const w=Math.max(14,step*0.62);
+    const t=(Math.sin(Date.now()/280)+1)/2;            // 0..1 จังหวะกระพริบ
+    const ctx=chart.ctx;
+    ctx.save();
+    ctx.globalAlpha=0.10+0.24*t;                       // แถบคอลัมน์เดือน คลุมถึงป้ายเดือนใต้กราฟ
+    ctx.fillStyle=BLINK_COLOR;
+    ctx.fillRect(x-w/2,ca.top,w,chart.height-ca.top-2);
+    ctx.globalAlpha=0.35+0.5*t;                        // เส้นแนวตั้งในพื้นที่กราฟ
+    ctx.strokeStyle=BLINK_COLOR;ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(x,ca.top);ctx.lineTo(x,ca.bottom);ctx.stroke();
+    ctx.restore();
+  }
+};
+let blinkRAF=null;
+function startBlink(){
+  if(blinkRAF)return; let last=0;
+  const loop=ts=>{ if(scurveChart&&(ts-last>45)){last=ts;try{scurveChart.draw();}catch(e){}} blinkRAF=requestAnimationFrame(loop); };
+  blinkRAF=requestAnimationFrame(loop);
+}
 function renderScurve(){
   const labels=MONTHS.map((_,i)=>mShort(i));
   const plan=MONTHS.map((_,i)=>Math.round(overall(i,false)*100)/100);
@@ -443,7 +471,7 @@ function renderScurve(){
     let any=false; for(const a of ACTIVITIES){const rec=ACTUAL[a.id]||{}; for(let j=0;j<=i;j++)if(rec[j]&&rec[j].v!=null)any=true;}
     if(!any)return null; const v=overall(i,true); return v==null?null:Math.round(v*100)/100;});
   if(scurveChart)scurveChart.destroy();
-  scurveChart=new Chart(document.getElementById('scurve'),{type:'line',
+  scurveChart=new Chart(document.getElementById('scurve'),{type:'line',plugins:[blinkMonthPlugin],
    data:{labels,datasets:[
     {label:'เป้าหมายสะสม (แผน)',data:plan,borderColor:'#9aa7ba',borderDash:[6,4],pointRadius:3,pointBackgroundColor:'#9aa7ba',tension:.3,fill:false},
     {label:'ผลงานสะสม (จริง)',data:act,borderColor:'#1e56b0',backgroundColor:'rgba(30,86,176,.10)',pointRadius:4,pointBackgroundColor:'#1e56b0',tension:.3,fill:true,spanGaps:false}]},
@@ -591,6 +619,7 @@ function init(){
   sel.addEventListener('change',e=>{curM=parseInt(e.target.value);renderAll();});
   bindModal();
   renderAll();
+  startBlink();
 }
 
 fetch('data/IC_Dashboard.csv',{cache:'no-store'})
