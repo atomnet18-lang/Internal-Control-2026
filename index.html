@@ -112,6 +112,12 @@ table.gantt td{position:relative}
 .g2.gd::after{content:"";position:absolute;width:4px;height:4px;border-radius:50%;background:var(--navy);margin:-9px auto 0;display:block;opacity:.55}
 /* ===== การ์ดกิจกรรมย่อยที่ล่าช้ากว่าแผน (แบบ BCM) ===== */
 .latecard{border-left:4px solid var(--red)}
+/* แถวล่าช้า(ซ้าย) + รายงานประจำเดือน(ขวา) */
+.grid-lr{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+@media(max-width:980px){.grid-lr{grid-template-columns:1fr}}
+#summaryCard{border-left:4px solid var(--blue)}
+.msum-body{white-space:pre-wrap;font-size:.9rem;line-height:1.75;color:var(--text);background:var(--blue-bg);border:1px solid #d3e7fd;border-radius:8px;padding:13px 15px;min-height:130px}
+.msum-empty{color:var(--muted);font-style:italic}
 table.gantt tr.late-row td.gname{box-shadow:inset 3px 0 0 var(--red);font-weight:600}
 .latelist{list-style:none;margin:8px 0 0;padding:0}
 .latelist li{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:9px 13px;border:1px solid #fecdca;background:var(--red-bg);border-radius:8px;margin-bottom:8px;font-size:.83rem}
@@ -189,11 +195,18 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
     </div>
   </div>
 
-  <!-- รายการกิจกรรมย่อยที่ล่าช้ากว่าแผน -->
-  <div class="card latecard" id="lateCard" style="display:none">
-    <h2>⚠ กิจกรรมย่อยที่ล่าช้ากว่าแผน</h2>
-    <div class="desc" id="lateDesc">รายการที่เลยช่วงเวลาตามแผน (Gantt) มาแล้ว แต่สถานะยังไม่ "เสร็จสิ้น" ณ เดือนที่เลือก</div>
-    <div id="lateBody"></div>
+  <!-- แถว: กิจกรรมย่อยที่ล่าช้า (ซ้าย) + รายงานประจำเดือน (ขวา) -->
+  <div class="grid-lr">
+    <div class="card latecard" id="lateCard" style="display:none">
+      <h2>⚠ กิจกรรมย่อยที่ล่าช้ากว่าแผน</h2>
+      <div class="desc" id="lateDesc">รายการที่เลยช่วงเวลาตามแผน (Gantt) มาแล้ว แต่สถานะยังไม่ "เสร็จสิ้น" ณ เดือนที่เลือก</div>
+      <div id="lateBody"></div>
+    </div>
+    <div class="card" id="summaryCard">
+      <h2 id="summaryTitle">รายงานประจำเดือน</h2>
+      <div class="desc">สรุปภาพรวมการดำเนินงานของเดือนที่เลือก (กรอกในฟอร์ม → ชีต "สรุปรายเดือน")</div>
+      <div id="summaryBody" class="msum-body"></div>
+    </div>
   </div>
 
   <!-- Activity table -->
@@ -310,6 +323,7 @@ function buildPlans(){
 let ACTUAL={};   // ACTUAL[id][m] = {v,d,note,issue,st}
 let SUB={};      // SUB['2.4'] = {st,note,issue}
 let SUBM={};     // SUBM['2.4'][m] = รายละเอียดงานรายเดือน
+let MSUM={};     // MSUM[m] = ข้อความสรุปภาพรวมประจำเดือน
 
 function planAt(a,m){return a.plan[m];}
 function actualAt(id,m){
@@ -366,7 +380,9 @@ function loadActual(text){
   if(iA<0||!monthCols.length)return false;
   let n=0;
   for(let r=1;r<rows.length;r++){const c=rows[r]; if(!c[iA])continue;
-    const ma=(c[iA]||'').trim().match(/(\d+)\s*-\s*(\d+)/); if(!ma)continue; // รองรับคำนำหน้า เช่น A1-0 (กัน Excel แปลงเป็นวันที่) และแบบเดิม 1-0
+    const aidRaw=(c[iA]||'').trim();
+    if(/^summary$/i.test(aidRaw)){ for(const [j,mi] of monthCols){const raw=(c[j]??'').toString().trim(); if(raw!=='')MSUM[mi]=raw;} continue; }
+    const ma=aidRaw.match(/(\d+)\s*-\s*(\d+)/); if(!ma)continue; // รองรับคำนำหน้า เช่น A1-0 (กัน Excel แปลงเป็นวันที่) และแบบเดิม 1-0
     const id=parseInt(ma[1]), sx=parseInt(ma[2]);
     const st=iS>=0?(c[iS]||'').trim():'', note=iN>=0?(c[iN]||'').trim():'', issue=iI>=0?(c[iI]||'').trim():'';
     if(sx>0){ // กิจกรรมย่อย n.m
@@ -576,7 +592,14 @@ function renderLate(){
   }
   el.innerHTML=h+"</ul>";
 }
-function renderAll(){renderKPIs();renderScurve();renderBar();renderLate();renderTable();}
+function renderSummary(){
+  const t=document.getElementById('summaryTitle'), b=document.getElementById('summaryBody'); if(!t||!b)return;
+  t.textContent='รายงานประจำเดือน '+mLabel(curM);
+  const txt=MSUM[curM];
+  b.innerHTML = txt ? (txt+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                    : '<span class="msum-empty">— ยังไม่มีสรุปสำหรับเดือนนี้ —</span>';
+}
+function renderAll(){renderKPIs();renderScurve();renderBar();renderLate();renderSummary();renderTable();}
 
 /* ---- Popup รายละเอียดรายเดือน ---- */
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
