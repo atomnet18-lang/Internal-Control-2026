@@ -467,9 +467,11 @@ function startBlink(){
 function renderScurve(){
   const labels=MONTHS.map((_,i)=>mShort(i));
   const plan=MONTHS.map((_,i)=>Math.round(overall(i,false)*100)/100);
-  const act=MONTHS.map((_,i)=>{ if(!hasActual)return null;
-    let any=false; for(const a of ACTIVITIES){const rec=ACTUAL[a.id]||{}; for(let j=0;j<=i;j++)if(rec[j]&&rec[j].v!=null)any=true;}
-    if(!any)return null; const v=overall(i,true); return v==null?null:Math.round(v*100)/100;});
+  // เดือนสุดท้ายที่มี "ผลจริง" รายงานจริง (ไม่นับค่าที่ถูก carry-forward)
+  let lastAct=-1;
+  for(const a of ACTIVITIES){const rec=ACTUAL[a.id]||{}; for(let j=0;j<NM;j++){ if(rec[j]&&rec[j].v!=null&&j>lastAct)lastAct=j; }}
+  const act=MONTHS.map((_,i)=>{ if(!hasActual||i>lastAct)return null;   // ไม่แสดงผลจริงในเดือนที่ยังมาไม่ถึง
+    const v=overall(i,true); return v==null?null:Math.round(v*100)/100;});
   if(scurveChart)scurveChart.destroy();
   scurveChart=new Chart(document.getElementById('scurve'),{type:'line',plugins:[blinkMonthPlugin],
    data:{labels,datasets:[
