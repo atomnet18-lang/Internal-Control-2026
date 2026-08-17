@@ -160,21 +160,7 @@ table.gantt td{position:relative}
 .msub.now{outline:2px solid var(--orange);outline-offset:1px}
 .msub.gd{cursor:pointer}
 .msub.gd:hover{outline:1px solid var(--orange)}
-/* ===== การ์ดกิจกรรมย่อยที่ล่าช้ากว่าแผน (แบบ BCM) ===== */
-.latecard{border-left:4px solid var(--red)}
-/* แถวล่าช้า(ซ้าย) + รายงานประจำเดือน(ขวา) */
-.grid-lr{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-@media(max-width:980px){.grid-lr{grid-template-columns:1fr}}
-#summaryCard{border-left:4px solid var(--blue)}
-.msum-body{white-space:pre-wrap;font-size:.9rem;line-height:1.75;color:var(--text);background:var(--blue-bg);border:1px solid #d3e7fd;border-radius:8px;padding:13px 15px;min-height:130px}
-.msum-empty{color:var(--muted);font-style:italic}
 table.gantt tr.late-row td.gname{box-shadow:inset 3px 0 0 var(--red);font-weight:600}
-.latelist{list-style:none;margin:8px 0 0;padding:0}
-.latelist li{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:9px 13px;border:1px solid #fecdca;background:var(--red-bg);border-radius:8px;margin-bottom:8px;font-size:.83rem}
-.latelist .lt-name{color:var(--navy);font-weight:600}
-.latelist .lt-sub{color:var(--muted);font-weight:400;font-size:.74rem}
-.latelist .lt-meta{color:var(--red);font-weight:700;white-space:nowrap;font-size:.77rem;text-align:right}
-.lateempty{font-size:.85rem;color:var(--green);background:var(--green-bg);border:1px solid #abefc6;padding:11px 14px;border-radius:8px}
 .note{margin-top:12px;font-size:.8rem;background:var(--blue-bg);border-left:3px solid var(--blue);padding:9px 13px;border-radius:0 6px 6px 0;color:#1d4f9c}
 .issue{margin-top:8px;font-size:.8rem;background:var(--amber-bg);border-left:3px solid var(--amber);padding:9px 13px;border-radius:0 6px 6px 0;color:#93550c}
 
@@ -306,20 +292,6 @@ html[data-theme="dark"] .issue{background:var(--amber-bg);color:#f4d9a8}
       <h2>ความก้าวหน้ารายหมวดงาน</h2>
       <div class="desc" id="barDesc">เป้าหมาย vs ผลงาน ของแต่ละหมวดงาน (ร้อยละของหมวด)</div>
       <div class="chartbox"><canvas id="actbar"></canvas></div>
-    </div>
-  </div>
-
-  <!-- แถว: กิจกรรมย่อยที่ล่าช้า (ซ้าย) + รายงานประจำเดือน (ขวา) -->
-  <div class="grid-lr">
-    <div class="card latecard" id="lateCard" style="display:none">
-      <h2>⚠ กิจกรรมย่อยที่ล่าช้ากว่าแผน</h2>
-      <div class="desc" id="lateDesc">รายการที่เลยช่วงเวลาตามแผน (Gantt) มาแล้ว แต่สถานะยังไม่ "เสร็จสิ้น" ณ เดือนที่เลือก</div>
-      <div id="lateBody"></div>
-    </div>
-    <div class="card" id="summaryCard">
-      <h2 id="summaryTitle">รายงานประจำเดือน</h2>
-      <div class="desc">สรุปภาพรวมการดำเนินงานของเดือนที่เลือก (กรอกในฟอร์ม → ชีต "สรุปรายเดือน")</div>
-      <div id="summaryBody" class="msum-body"></div>
     </div>
   </div>
 
@@ -663,26 +635,7 @@ function renderTable(){
 function dueMonthIdx(sub){return sub.target.findIndex(v=>v===100);} // เดือนแรกที่เป้าหมายถึง 100% = ครบกำหนด
 function isLateSub(sub,m){if(!hasActual)return false; const t=sub.target[m]; if(t!==100)return false; const v=subActualAt(sub.c,m); return v==null||v<100;}
 function lateSubs(m){const out=[];for(const a of ACTIVITIES)for(const sub of a.subs){if(isLateSub(sub,m)){const due=dueMonthIdx(sub); const v=subActualAt(sub.c,m); out.push({aid:a.id,c:sub.c,nm:sub.n,due,dueLabel:sub.due,acc:v==null?0:v,months:m-due});}}return out;}
-function renderLate(){
-  const card=document.getElementById("lateCard"),el=document.getElementById("lateBody");if(!card||!el)return;
-  card.style.display="";
-  const list=lateSubs(curM).sort((x,y)=>y.months-x.months);
-  if(!list.length){el.innerHTML=`<div class="lateempty">\u2713 ไม่มีกิจกรรมย่อยที่ล่าช้ากว่าแผน ณ ${mLabel(curM)}</div>`;return;}
-  let h='<ul class="latelist">';
-  for(const it of list){
-    const due=it.dueLabel||mLabel(it.due);
-    h+=`<li><span class="lt-name"><b>${it.c}</b> ${it.nm} <span class="lt-sub">(หมวดที่ ${it.aid})</span></span><span class="lt-meta">ครบกำหนด ${due} · ผลจริงล่าสุด ${fmt(it.acc)}% · เลยมา ${it.months} เดือน</span></li>`;
-  }
-  el.innerHTML=h+"</ul>";
-}
-function renderSummary(){
-  const t=document.getElementById('summaryTitle'), b=document.getElementById('summaryBody'); if(!t||!b)return;
-  t.textContent='รายงานประจำเดือน '+mLabel(curM);
-  const txt=MSUM[curM];
-  b.innerHTML = txt ? (txt+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-                    : '<span class="msum-empty">— ยังไม่มีสรุปสำหรับเดือนนี้ —</span>';
-}
-function renderAll(){renderScurve();renderBar();renderLate();renderSummary();renderTable();}
+function renderAll(){renderScurve();renderBar();renderTable();}
 
 /* ---- Popup รายละเอียดรายเดือน ---- */
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
