@@ -617,7 +617,7 @@ function renderTable(){
     const pct=v??0;
     const tr=document.createElement('tr'); tr.className='main';
     tr.innerHTML=`
-      <td class="name"><div class="nm"><span class="caret">▶</span><div><b>${a.id}.</b> ${a.name}<div class="outp">ผลผลิต: ${a.output}</div></div></div></td>
+      <td class="name"><div class="nm"><span class="caret">▶</span><div><b>${a.id}.</b> ${a.name}</div></div></td>
       <td><span class="wchip">${a.w}%</span></td>
       <td>${fmt(t)}%</td><td>${v==null?'–':fmt(v)+'%'}</td>
       <td><div class="pcell"><div class="pbar"><i style="width:${Math.min(pct,100)}%;background:${s.cls==='r'?'var(--red)':s.cls==='a'?'var(--amber)':'var(--blue)'}"></i></div><span>${v==null?'':fmt(v)+'%'}</span></div></td>
