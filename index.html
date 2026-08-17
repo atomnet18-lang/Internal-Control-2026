@@ -34,14 +34,6 @@ select#monthSel{font-family:'Sarabun';font-size:.92rem;font-weight:600;padding:9
 .asof{font-size:.74rem;opacity:.65;text-align:right;margin-top:8px;letter-spacing:.2px}
 
 /* ===== KPI cards ===== */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:16px;margin:26px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent,var(--navy))}
-.kpi .lbl{font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.2px;text-transform:none}
-.kpi .val{font-size:2rem;font-weight:700;color:var(--navy);margin-top:6px;line-height:1.1}
-.kpi .val small{font-size:.9rem;font-weight:600;color:var(--muted)}
-.kpi .sub{font-size:.76rem;color:var(--muted);margin-top:5px}
-.kpi.good .val{color:var(--green)} .kpi.bad .val{color:var(--red)} .kpi.warn .val{color:var(--amber)}
 
 /* ===== Cards ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:20px;box-shadow:var(--shadow)}
@@ -165,9 +157,6 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
 </header>
 
 <div class="wrap">
-
-  <!-- KPI -->
-  <div class="kpis" id="kpis"></div>
 
   <!-- Charts -->
   <div class="grid2">
@@ -401,30 +390,6 @@ function wsChip(s){
   return '<span class="chip n">–</span>';
 }
 
-function renderKPIs(){
-  const t=overall(curM,false), v=overall(curM,true);
-  const d=v==null?null:v-t;
-  let g=0,a=0,r=0,n=0,wd=0,wg=0,wn=0;
-  ACTIVITIES.forEach(x=>{const s=status(x,curM); if(s.cls==='g')g++;else if(s.cls==='a')a++;else if(s.cls==='r')r++;else n++;
-    const w=workStatus(x.id,curM); if(w===WS_DONE)wd++;else if(w===WS_DOING)wg++;else wn++;});
-  const dCls=d==null?'':(d>=0?'good':(d>-5?'warn':'bad'));
-  const dTxt=d==null?'–':((d>=0?'+':'')+fmt(d));
-  document.getElementById('kpis').innerHTML=`
-   <div class="kpi" style="--accent:var(--navy)"><div class="lbl">เป้าหมายสะสม ณ ${mLabel(curM)}</div>
-     <div class="val">${fmt(t)}<small> %</small></div><div class="sub">จากเป้าหมายทั้งแผน 100%</div></div>
-   <div class="kpi" style="--accent:var(--blue)"><div class="lbl">ผลงานสะสม (ถ่วงน้ำหนัก)</div>
-     <div class="val">${fmt(v)}<small> %</small></div><div class="sub">${v==null?'ยังไม่มีข้อมูลผลงานจริง':'จากรายงานผลการดำเนินงาน'}</div></div>
-   <div class="kpi ${dCls}" style="--accent:${d==null?'var(--muted)':d>=0?'var(--green)':'var(--red)'}"><div class="lbl">ผลต่าง (ผลงาน − เป้าหมาย)</div>
-     <div class="val">${dTxt}<small>${d==null?'':' จุด'}</small></div><div class="sub">${d==null?'รอข้อมูลผลงาน':d>=0?'ดำเนินงานเป็นไปตามแผน':'ต่ำกว่าเป้าหมาย'}</div></div>
-   <div class="kpi" style="--accent:var(--green)"><div class="lbl">สถานะเทียบแผน (4 หมวดงาน)</div>
-     <div class="val" style="font-size:1.25rem;display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-       <span class="chip g">✓ ${g}</span><span class="chip a">! ${a}</span><span class="chip r">✕ ${r}</span><span class="chip n">○ ${n}</span></div>
-     <div class="sub" style="margin-top:6px">ตามแผน · ล่าช้าเล็กน้อย · ล่าช้า · ยังไม่ถึงกำหนด/รอผล</div></div>
-   <div class="kpi" style="--accent:var(--orange)"><div class="lbl">สถานะงาน (รายงานโดยผู้รับผิดชอบ)</div>
-     <div class="val" style="font-size:1.25rem;display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-       <span class="chip g">✓ ${wd}</span><span class="chip b">⟳ ${wg}</span><span class="chip n">○ ${wn}</span></div>
-     <div class="sub" style="margin-top:6px">เสร็จสิ้น · อยู่ระหว่างดำเนินการ · ยังไม่ดำเนินการ/ไม่ระบุ</div></div>`;
-}
 
 /* ===== ไฮไลต์ "กระพริบ" ที่เดือนซึ่งเลือกอยู่ บนแกนเดือนของ S-Curve ===== */
 const BLINK_COLOR='#e0820c';   // ส้มสด เข้ากับธีม
@@ -570,7 +535,7 @@ function renderSummary(){
   b.innerHTML = txt ? (txt+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
                     : '<span class="msum-empty">— ยังไม่มีสรุปสำหรับเดือนนี้ —</span>';
 }
-function renderAll(){renderKPIs();renderScurve();renderBar();renderLate();renderSummary();renderTable();}
+function renderAll(){renderScurve();renderBar();renderLate();renderSummary();renderTable();}
 
 /* ---- Popup รายละเอียดรายเดือน ---- */
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
