@@ -288,7 +288,6 @@ html[data-theme="dark"] .issue{background:var(--amber-bg);color:#f4d9a8}
       <div>
         <label for="monthSel">ข้อมูล ณ เดือน</label><br>
         <select id="monthSel"></select>
-        <div class="asof" id="srcInfo">แหล่งข้อมูล: แผนการควบคุมภายใน ปี 2569</div>
       </div>
     </div>
   </div>
@@ -739,10 +738,7 @@ function init(){
 
 fetch('data/IC_Dashboard.csv',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw 0;return r.text();})
- .then(t=>{hasActual=loadActual(t);
-   document.getElementById('srcInfo').textContent=hasActual
-     ?'แหล่งข้อมูล: แผนการควบคุมภายใน 2569 + ผลงานจริง (MS Lists → GitHub)'
-     :'แหล่งข้อมูล: แผนการควบคุมภายใน ปี 2569 (ยังไม่มีไฟล์ผลงานจริง)';})
+ .then(t=>{hasActual=loadActual(t);})
  .catch(()=>{})
  .finally(init);
 </script>
