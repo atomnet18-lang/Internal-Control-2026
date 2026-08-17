@@ -92,24 +92,15 @@ table.gantt th.yr{color:var(--navy);font-weight:700;font-size:.72rem;border-bott
 table.gantt td{padding:5px 2px;border-bottom:1px solid #eef1f5}
 table.gantt tr:nth-child(even) td{background:#f8fafc}
 table.gantt td.gname{text-align:left;color:var(--text);padding-right:10px}
-.ydiv{border-left:2px solid var(--orange)}
-.gcell{height:14px;border-radius:3px}
-.gcell.on{background:linear-gradient(180deg,#3b5fa3,#27457f)}
-.gcell.gp{box-shadow:inset 0 0 0 1.5px rgba(30,86,176,.32);background:rgba(30,86,176,.12)}
-.gcell.gs-done{background:#12b76a}
-.gcell.gs-doing{background:#f79009}
-.gcell.gs-todo{background:#d8dde5}
-.gcell.now{outline:2px solid var(--orange);outline-offset:-1px}
 /* ===== แท่งคู่ เป้าหมาย(บน)/ผลจริง(ล่าง) แบบ BCM ===== */
 table.gantt td{position:relative}
-.g2{display:flex;flex-direction:column;gap:1px;height:13px;border-radius:3px}
-.g2 .gp,.g2 .ga{height:6px;border-radius:2px;background:#eef0f4}
-.g2 .gp.on{background:linear-gradient(180deg,#f7b66a,#e0820c)}
-.g2 .ga.on{background:linear-gradient(180deg,#3cc88a,#067647)}
-.g2.now{outline:2px solid var(--orange);outline-offset:1px}
-.g2.gd{cursor:pointer}
-.g2.gd:hover .gp,.g2.gd:hover .ga{outline:1px solid var(--orange)}
-.g2.gd::after{content:"";position:absolute;width:4px;height:4px;border-radius:50%;background:var(--navy);margin:-9px auto 0;display:block;opacity:.55}
+/* แต่ละช่องกิจกรรมย่อย: ตัวเลขเป้าหมาย(บน,ทอง)/ผลจริง(ล่าง,เขียว) */
+.msub{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:26px;border-radius:4px;padding:2px 0;font-size:.66rem;font-weight:700;line-height:1.15;background:#f8fafc}
+.msub .t{color:#a8842a}
+.msub .a{color:#006b3f}
+.msub.now{outline:2px solid var(--orange);outline-offset:1px}
+.msub.gd{cursor:pointer}
+.msub.gd:hover{outline:1px solid var(--orange)}
 /* ===== การ์ดกิจกรรมย่อยที่ล่าช้ากว่าแผน (แบบ BCM) ===== */
 .latecard{border-left:4px solid var(--red)}
 /* แถวล่าช้า(ซ้าย) + รายงานประจำเดือน(ขวา) */
@@ -148,9 +139,6 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
 .mv{position:relative;background:var(--blue-bg);color:var(--blue);font-weight:700;border-radius:5px;padding:2px 0;font-size:.74rem;text-align:center;border:1px solid #d3e7fd}
 .mv:hover{background:#dcebfc}
 .mv.hasd::after{content:'';position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--orange);border:1.5px solid #fff}
-.gcell.gd::after{content:'';position:absolute;top:-4px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--orange);border:1.5px solid #fff}
-.gcell.gd{position:relative}
-.gcell.gd:hover{outline:2px solid var(--orange)}
 </style>
 </head>
 <body>
@@ -162,7 +150,7 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
       <div class="htitle">
         <div class="dept">ฝบส.</div>
         <h1>Dashboard แผนการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเอง</h1>
-        <p>ประจำปี 2569 ของการไฟฟ้านครหลวง · ระยะดำเนินการ ม.ค. 2569 – มี.ค. 2570</p>
+        <p>ประจำปี 2569 ของการไฟฟ้านครหลวง · ระยะดำเนินการ ม.ค. – ธ.ค. 2569</p>
         <span class="badge-iso">COSO 2013</span>
       </div>
     </div>
@@ -211,8 +199,8 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
 
   <!-- Activity table -->
   <div class="card">
-    <h2>รายละเอียดตามแผนปฏิบัติการ (5 หมวดงาน · 19 กิจกรรมย่อย)</h2>
-    <div class="desc">คลิกที่แถวหมวดงานเพื่อดูกิจกรรมย่อย ผู้รับผิดชอบ และช่วงเวลาดำเนินการ (Gantt) · เดือนที่เลือกถูกเน้นกรอบ · เส้นส้มแบ่งปี 2569/2570</div>
+    <h2>รายละเอียดตามแผนปฏิบัติการ (4 หมวดงาน · 14 กิจกรรมย่อย)</h2>
+    <div class="desc">คลิกที่แถวหมวดงานเพื่อดูกิจกรรมย่อย ผู้รับผิดชอบ และความก้าวหน้ารายเดือน · เดือนที่เลือกถูกเน้นกรอบ</div>
     <div style="overflow-x:auto">
     <table class="acts">
       <thead><tr>
@@ -228,8 +216,8 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
       <span><i style="background:var(--red-bg);border:1px solid var(--red)"></i>ล่าช้า (≥ 10 จุด)</span>
       <span><i style="background:#eef0f4"></i>ยังไม่ถึงกำหนด / รอรายงานผล</span>
       <span style="color:var(--navy);font-weight:600;margin-left:4px">| กิจกรรมย่อย (Gantt):</span>
-      <span><i style="background:linear-gradient(180deg,#f7b66a,#e0820c)"></i>เป้าหมายตามแผน (แท่งบน)</span>
-      <span><i style="background:linear-gradient(180deg,#3cc88a,#067647)"></i>ผลปฏิบัติงานจริง (แท่งล่าง)</span>
+      <span><i style="background:#a8842a"></i>ตัวเลขบน = เป้าหมาย %</span>
+      <span><i style="background:#006b3f"></i>ตัวเลขล่าง = ผลจริง %</span>
       <span><i style="background:#eef0f4"></i>ยังไม่ถึงกำหนด / รอรายงานผล</span>
     </div>
   </div>
@@ -246,59 +234,45 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
 
 <script>
 /* ================= ข้อมูลแผน (จากเอกสารแนบ 1: แผนการควบคุมภายใน กฟน. ปี 2569) ================= */
-/* ระยะดำเนินการ 15 เดือน : ม.ค.2569 – มี.ค.2570 (งานรายงานต่อเนื่องถึงต้นปี 2570) */
+/* ระยะดำเนินการ 12 เดือน : ม.ค.–ธ.ค. 2569 (ตามแผน AP_CSA 2569 Q2) */
 const MONTHS=[
  {a:'ม.ค.',y:2569},{a:'ก.พ.',y:2569},{a:'มี.ค.',y:2569},{a:'เม.ย.',y:2569},{a:'พ.ค.',y:2569},{a:'มิ.ย.',y:2569},
- {a:'ก.ค.',y:2569},{a:'ส.ค.',y:2569},{a:'ก.ย.',y:2569},{a:'ต.ค.',y:2569},{a:'พ.ย.',y:2569},{a:'ธ.ค.',y:2569},
- {a:'ม.ค.',y:2570},{a:'ก.พ.',y:2570},{a:'มี.ค.',y:2570}
+ {a:'ก.ค.',y:2569},{a:'ส.ค.',y:2569},{a:'ก.ย.',y:2569},{a:'ต.ค.',y:2569},{a:'พ.ย.',y:2569},{a:'ธ.ค.',y:2569}
 ];
-const NM=MONTHS.length;                 // 15
-const Y2570_START=12;                    // index ที่เริ่มปี 2570
+const NM=MONTHS.length;                 // 12
 const THM={'ม.ค.':1,'ก.พ.':2,'มี.ค.':3,'เม.ย.':4,'พ.ค.':5,'มิ.ย.':6,'ก.ค.':7,'ส.ค.':8,'ก.ย.':9,'ต.ค.':10,'พ.ย.':11,'ธ.ค.':12};
 const mLabel=i=>`${MONTHS[i].a} ${MONTHS[i].y}`;          // ป้ายเต็ม
 const mShort=i=>`${MONTHS[i].a}${String(MONTHS[i].y).slice(2)}`; // ย่อ เช่น ม.ค.69
 
-/* แต่ละหมวด: w = ถ่วงน้ำหนัก (ตามจำนวนกิจกรรมย่อย, รวม = 100)
-   subs : {c รหัส, n ชื่อ, s เดือนเริ่ม (0-14), e เดือนสิ้นสุด, o ผู้รับผิดชอบ} */
+/* แต่ละหมวด: w = ผลรวมค่าถ่วงน้ำหนักของกิจกรรมย่อย (รวมทั้งหมด = 100)
+   subs : {c รหัส, n ชื่อ, o ผู้รับผิดชอบ, w ค่าถ่วงน้ำหนัก, target[] เป้าหมายรายเดือน (0-100, null=ยังไม่ถึงกำหนด),
+           output ผลผลิต, due กำหนดเวลาแล้วเสร็จ}  ที่มา: แนบ 5.1_AP_แผนการควบคุมภายใน ปี 2569_Q2 */
 const ACTIVITIES=[
- {id:1, w:31, name:'การทบทวนการจัดวางระบบการควบคุมภายใน',
-  output:'ผลการทบทวนการจัดวางระบบควบคุมภายใน (แบบ ค.2/ปม. และ ปย.2) และคู่มือการควบคุมภายในของทุกหน่วยงาน เสนอผู้ว่าการ',
+ {id:1, w:20, name:'การทบทวนการจัดวางระบบการควบคุมภายใน',
   subs:[
-   {c:'1.1',n:'หน่วยงานทบทวนการจัดวางระบบการควบคุมภายในให้ครอบคลุมภารกิจของหน่วยงาน และสอดคล้องกับความเสี่ยง/สภาพแวดล้อมที่เปลี่ยนแปลง (แบบ ค.2/ปม.) หากการควบคุมไม่เพียงพอ จัดทำแบบ ปย.2 และรายงานผลเป็นรายเดือน',s:0,e:3,o:'หัวหน้าหน่วยงาน'},
-   {c:'1.2',n:'หน่วยงานทบทวนคู่มือการควบคุมภายในของหน่วยงานให้เป็นปัจจุบัน',s:0,e:3,o:'หัวหน้าหน่วยงาน'},
-   {c:'1.3',n:'หน่วยงานรายงานผลการทบทวนฯ (1.1) และคู่มือการควบคุมภายใน (1.2) เสนอสายงานทราบผ่านโปรแกรมระบบการตรวจสอบภายในและการควบคุมภายใน',s:3,e:3,o:'หัวหน้าหน่วยงาน'},
-   {c:'1.4',n:'รายงานผลการทบทวนฯ ของทุกหน่วยงานในสายงาน เสนอคณะผู้บริหาร GRC ประจำสายงานพิจารณา และเสนอผู้ว่าการทราบ',s:4,e:4,o:'ผู้ตรวจการ'},
-   {c:'1.5',n:'สรุปผลการทบทวนฯ ของทุกหน่วยงาน เสนอผู้ว่าการทราบ',s:5,e:5,o:'ฝบส.'},
-   {c:'1.6',n:'รายงานผลการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเองของ กฟน. (ม.ค.–มิ.ย.) เสนอคณะกรรมการที่เกี่ยวข้อง',s:6,e:7,o:'ฝบส.'}
+   {c:'1.1',n:'ชี้แจงแผนการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเอง ประจำปี',o:'ฝบส.',w:10,target:[50,100,100,100,100,100,100,100,100,100,100,100],output:'1. สื่อสารแผนการจัดวางระบบการควบคุมภายในฯ ประจำปี 2569 ของการไฟฟ้านครหลวง ผ่านช่องทางภายในที่เหมาะสม',due:'ก.พ.69'},
+   {c:'1.2',n:'กำกับ ติดตามให้รายงานผลการทบทวนฯ และคู่มือการควบคุมภายในของหน่วยงาน เสนอสายงาน',o:'ฝบส.',w:5,target:[null,null,50,100,100,100,100,100,100,100,100,100],output:'1. รายงานผลการทบทวนฯ',due:'เม.ย.69'},
+   {c:'1.3',n:'สรุปผลการทบทวนการจัดวางฯ ของทุกหน่วยงาน เสนอ ผวก. ทราบ',o:'ฝบส.',w:5,target:[null,null,null,null,50,100,100,100,100,100,100,100],output:'รายงานสรุปผลการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเองของ กฟน. ปี 2568 (มกราคม-มิถุนายน)',due:'มิ.ย.69'}
   ]},
- {id:2, w:26, name:'การประเมินการควบคุมด้วยตนเอง',
-  output:'รายงานผลการประเมินการควบคุมด้วยตนเอง (แบบ ปย.1, ปย.1-1, แบบติดตาม ปย.2) และร่างรายงาน แบบ ปค.4 / ปค.5 / ติดตาม ปค.5',
+ {id:2, w:25, name:'การประเมินการควบคุมด้วยตนเอง',
   subs:[
-   {c:'2.1',n:'หน่วยงานสอบทานการปฏิบัติตามระบบการควบคุมภายในทุกกระบวนงานที่จัดวางไว้ และรายงานผลพร้อมข้อเสนอแนะแก่หัวหน้าหน่วยงาน',s:4,e:8,o:'หัวหน้าหน่วยงาน'},
-   {c:'2.2',n:'หน่วยงานประเมินองค์ประกอบของการควบคุมภายใน (5 องค์ประกอบ 17 หลักการ ตามมาตรฐานสากล COSO) ในแบบ ปย.1 และ แบบ ปย.1-1',s:8,e:10,o:'หัวหน้าหน่วยงาน'},
-   {c:'2.3',n:'หน่วยงานประเมินความเพียงพอและประสิทธิผลของระบบฯ จัดทำรายงานการประเมินการควบคุมด้วยตนเอง และแบบติดตาม ปย.2 เสนอสายงานทราบ',s:8,e:10,o:'หัวหน้าหน่วยงาน'},
-   {c:'2.4',n:'รายงานผลการประเมินฯ ของสายงาน เสนอคณะผู้บริหาร GRC ประจำสายงานพิจารณา และเสนอผู้ว่าการทราบ',s:11,e:11,o:'ผู้ตรวจการ'},
-   {c:'2.5',n:'จัดทำ "ร่าง" รายงานการประเมินองค์ประกอบฯ (แบบ ปค.4), "ร่าง" รายงานการติดตามฯ (แบบติดตาม ปค.5) และ "ร่าง" รายงานการประเมินผลฯ (แบบ ปค.5) เสนอผู้ว่าการทราบ',s:11,e:11,o:'ฝบส.'}
+   {c:'2.1',n:'การสอบทานการปฏิบัติตามกระบวนงานที่ได้จัดวางไว้ และจัดทำรายงานผลการสอบทานฯ รายงานผลการสอบทาน พร้อมข้อเสนอแนะแก่หัวหน้าหน่วยงาน',o:'ทุกหน่วยงาน\nฝบส.',w:5,target:[null,null,null,null,null,35,70,100,100,100,100,100],output:'รายงานผลการสอบทาน และข้อเสนอแนะ (ถ้ามี)',due:'ส.ค.69'},
+   {c:'2.2',n:'การประเมินองค์ประกอบของการควบคุมภายใน และจัดทำ "ร่าง" รายงานการประเมินองค์ประกอบของการควบคุมภายใน (แบบ ปค.4)',o:'ทุกหน่วยงาน\nฝบส.',w:10,target:[null,null,null,null,null,null,null,20,40,60,80,100],output:'1. แบบปย.1\n2. แบบปย.1-1\n3. ร่าง รายงานการประเมินองค์ประกอบของการควบคุมภายใน (แบบ ปค.4)',due:'ธ.ค.69'},
+   {c:'2.3',n:'การประเมินความเพียงพอและประสิทธิผลของระบบการควบคุมภายใน และจัดทำรายงานผลการประเมินการควบคุมด้วยตนเอง',o:'ทุกหน่วยงาน\nฝบส.',w:5,target:[null,null,null,null,null,null,null,20,40,60,80,100],output:'แบบประเมินการควบคุมภายใน (ค.๒/ปม)',due:'ธ.ค.69'},
+   {c:'2.4',n:'จัดทำ ร่าง รายงานการประเมินผลการควบคุมภายใน (แบบ ปค.5)  และ ร่าง รายงานการติดตามการประเมินผลการควบคุมภายใน (แบบติดตาม ปค.5)',o:'ฝบส.',w:5,target:[null,null,null,null,null,null,null,20,40,60,80,100],output:'1. ร่าง รายงานการประเมินผลการควบคุมภายใน (แบบ ปค.5) \n2. ร่าง รายงานการติดตามการประเมินผลการควบคุมภายใน (แบบติดตาม ปค.5)',due:'ธ.ค.69'}
   ]},
- {id:3, w:11, name:'การสอบทานการปฏิบัติตามระบบการควบคุมภายใน',
-  output:'รายงานการสอบทานการประเมินผลการควบคุมภายในของผู้ตรวจสอบภายใน (แบบ ปค.6) เสนอผู้ว่าการ',
+ {id:3, w:20, name:'การจัดทำรายงานการควบคุมภายในของ กฟน. ประจำปี 2569',
   subs:[
-   {c:'3.1',n:'สรุปผลการสอบทานการประเมินการควบคุมด้วยตนเองของทุกหน่วยงาน เสนอหัวหน้าหน่วยงานและสายงาน',s:4,e:11,o:'ฝตส.'},
-   {c:'3.2',n:'จัดทำรายงานการสอบทานการประเมินผลการควบคุมภายในของผู้ตรวจสอบภายใน (แบบ ปค.6) เสนอผู้ว่าการทราบ',s:11,e:11,o:'ฝตส.'}
+   {c:'3.1',n:'จัดทำ "ร่าง" รายงานการควบคุมภายใน ของ กฟน. ประจำปี 2568 เตรียมนำเสนอคณะกรรมการที่เกี่ยวข้อง ประกอบด้วย แบบ ปค.๑, แบบ ปค.๔,  แบบ ปค.๕, แบบติดตาม ปค.๕, และแบบ ปค.๖',o:'ฝบส.\nฝตส.',w:10,target:[35,70,100,100,100,100,100,100,100,100,100,100],output:'1) แบบ ปค.1 หนังสือรับรองการประเมินผลการควบคุมภายใน  \n2) แบบ ปค.4 รายงานการประเมินองค์ประกอบของการควบคุมภายใน \n3) แบบ ปค.5 รายงานการประเมินผลการควบคุมภายใน และแบบติดตาม ปค.5\n4) แบบ ปค.6 รายงานการสอบทานการประเมินผลการควบคุมภายในของผู้ตรวจสอบภายใน',due:'มี.ค. 69'},
+   {c:'3.2',n:'เสนอ รายงานการควบคุมภายใน ของ กฟน. ประจำปี 2568 ที่ผ่านความเห็นชอบจากคณะผู้บริหาร ESGRC นำเสนอ ผู้ว่าการ ให้ความเห็นชอบและลงนามในแบบ ปค.๑, แบบ ปค.๔,  แบบ ปค.๕, แบบติดตาม ปค.๕, และแบบ ปค.๖',o:'ฝบส.',w:5,target:[35,70,100,100,100,100,100,100,100,100,100,100],output:'รายงานการควบคุมภายในของ กฟน. ประจำปี ที่ผู้ว่าการ ให้ความเห็นชอบและลงนาม',due:'มี.ค. 69'},
+   {c:'3.3',n:'จัดทำ ร่าง รายงานการควบคุมภายใน ของ กฟน. ประจำปี 2569 เตรียมนำเสนอคณะกรรมการที่เกี่ยวข้อง',o:'ฝบส.',w:5,target:[null,null,null,null,null,null,null,null,null,35,70,100],output:'รายงานการควบคุมภายในของ กฟน. ประจำปี นำส่งกระทรวงมหาดไทยภายใน 90 วัน นับแต่วันสิ้นปีบัญชี',due:'ธ.ค. 69'}
   ]},
- {id:4, w:11, name:'การรายงานการควบคุมภายในของ กฟน.',
-  output:'รายงานการควบคุมภายใน ประจำปี 2569 เสนอคณะกรรมการที่เกี่ยวข้อง และส่งกระทรวงมหาดไทยภายใน 90 วัน',
+ {id:4, w:35, name:'การพัฒนาระบบการควบคุมภายในของ กฟน.',
   subs:[
-   {c:'4.1',n:'คณะผู้บริหาร GRC ประมวลผลการประเมินการควบคุมภายในของ กฟน. ในภาพรวม และจัดทำ "ร่าง" รายงานการควบคุมภายใน ปี 2569 เสนอผู้ว่าการให้ความเห็นชอบ',s:12,e:12,o:'ฝบส.'},
-   {c:'4.2',n:'รายงานการควบคุมภายใน ประจำปี 2569 เสนอคณะกรรมการที่เกี่ยวข้อง และส่งกระทรวงมหาดไทยภายใน 90 วันนับจากวันสิ้นปีปฏิทิน',s:12,e:14,o:'ฝบส.'}
-  ]},
- {id:5, w:21, name:'การพัฒนาระบบการควบคุมภายใน',
-  output:'บุคลากรมีความรู้ความเข้าใจด้านการควบคุมภายใน และกระบวนงาน/แผน/คู่มือการควบคุมภายใน ปี 2570 ได้รับการทบทวน',
-  subs:[
-   {c:'5.1',n:'สร้างความรู้ ความเข้าใจ และความตระหนัก ผ่านการสื่อสาร อบรม และการให้คำปรึกษาแนะนำ',s:0,e:11,o:'ฝบส./หน่วยงาน'},
-   {c:'5.2',n:'ทบทวน/ปรับปรุงกระบวนงานพื้นฐาน/กระบวนงานภารกิจ ร่วมกับหน่วยงานที่เกี่ยวข้อง',s:0,e:11,o:'ฝบส./หน่วยงาน'},
-   {c:'5.3',n:'ทบทวนแผนการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเอง ประจำปี 2570 เสนอคณะกรรมการที่เกี่ยวข้อง',s:8,e:10,o:'ฝบส.'},
-   {c:'5.4',n:'ทบทวนคู่มือการควบคุมภายใน ปี 2570 เสนอผู้ว่าการอนุมัติ',s:9,e:11,o:'ฝบส.'}
+   {c:'4.1',n:'พัฒนาการควบคุมภายใน โดยทบทวน/ปรับปรุงกระบวนงานพื้นฐาน/กระบวนงานภารกิจ ร่วมกับหน่วยงานที่เกี่ยวข้อง',o:'ทุกหน่วยงาน\nฝบส.',w:10,target:[15,30,45,60,60,60,65,70,80,90,100,100],output:'1) กระบวนงานพื้นฐานที่ผ่านการปรับปรุง และนำเข้าสู่ระบบ MEA GRC \n   - รอบจัดวาง\n   - รอบประเมินฯ (ถ้ามี)',due:'เม.ย.69\nพ.ย.69'},
+   {c:'4.2',n:'อบรม ให้ความรู้ ให้คำปรึกษาหน่วยงาน และกำกับติดตามการดำเนินงาน',o:'ฝบส.',w:12,target:[15,30,50,60,60,60,70,80,85,90,95,100],output:'1. สื่อการเรียนรู้ One pages \n2. การจัดประชุมเชิงปฏิบัติการ (รอบจัดวางฯ)\n3. การจัดประชุมเชิงปฏิบัติการ (รอบประเมินฯ)',due:'ปีละ 10 สื่อ\nมี.ค.69\nส.ค.69'},
+   {c:'4.3',n:'ทบทวนคู่มือการควบคุมภายใน ปี 2570 เสนอ ผวก. ทราบ',o:'ฝบส.',w:6,target:[null,null,null,null,null,null,null,null,25,50,75,100],output:'คู่มือการควบคุมภายในของ กฟน. ปี 2570',due:'ธ.ค.69'},
+   {c:'4.4',n:'ทบทวนนโยบายฯ จัดทำแผนการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเอง ประจำปี 2570 และนำเสนอขอความเห็นชอบ',o:'ฝบส.',w:7,target:[null,null,null,null,null,null,null,25,50,75,100,100],output:'1. นโยบายการบริหารความเสี่ยงและควบคุมภายใน ที่ผ่านการทบทวน\n2. แผนการจัดวางระบบการควบคุมภายในและการประเมินการควบคุมด้วยตนเอง ปี 2570',due:'พ.ย.69\nธ.ค.69'}
   ]}
 ];
 
@@ -306,10 +280,11 @@ const ACTIVITIES=[
 function buildPlans(){
   ACTIVITIES.forEach(a=>{
     a.plan=[];
+    const totW=a.subs.reduce((s,sub)=>s+sub.w,0)||1;
     for(let m=0;m<NM;m++){
       let s=0;
-      a.subs.forEach(sub=>{ s += (m>=sub.e ? 100 : (m>=sub.s ? 50 : 0)); });
-      a.plan[m]=Math.round(s/a.subs.length);
+      a.subs.forEach(sub=>{ s += (sub.target[m]??0)*sub.w; });
+      a.plan[m]=Math.round(s/totW);
     }
   });
 }
@@ -321,7 +296,6 @@ function buildPlans(){
    - AID แถวกิจกรรมย่อย = "n-m" (เช่น 2-4 = ข้อ 2.4) | ช่องเดือน = ข้อความรายละเอียดงานของเดือนนั้น
    - Status: ยังไม่ดำเนินการ / อยู่ระหว่างดำเนินการ / เสร็จสิ้น  | Note: ความคืบหน้า | Issue: ปัญหา/แนวทางแก้ไข */
 let ACTUAL={};   // ACTUAL[id][m] = {v,d,note,issue,st}
-let SUB={};      // SUB['2.4'] = {st,note,issue}
 let SUBM={};     // SUBM['2.4'][m] = รายละเอียดงานรายเดือน
 let MSUM={};     // MSUM[m] = ข้อความสรุปภาพรวมประจำเดือน
 
@@ -385,10 +359,10 @@ function loadActual(text){
     const ma=aidRaw.match(/(\d+)\s*-\s*(\d+)/); if(!ma)continue; // รองรับคำนำหน้า เช่น A1-0 (กัน Excel แปลงเป็นวันที่) และแบบเดิม 1-0
     const id=parseInt(ma[1]), sx=parseInt(ma[2]);
     const st=iS>=0?(c[iS]||'').trim():'', note=iN>=0?(c[iN]||'').trim():'', issue=iI>=0?(c[iI]||'').trim():'';
-    if(sx>0){ // กิจกรรมย่อย n.m
-      const sid=id+'.'+sx; SUB[sid]={st,note,issue};
-      for(const [j,mi] of monthCols){const raw=(c[j]??'').toString().trim();
-        if(raw!==''){SUBM[sid]=SUBM[sid]||{}; SUBM[sid][mi]=raw; n++;}}
+    if(sx>0){ // กิจกรรมย่อย n.m — ค่าช่องเดือน = ผลจริง % (ตัวเลข 0-100)
+      const sid=id+'.'+sx;
+      for(const [j,mi] of monthCols){const raw=(c[j]??'').toString().trim(); if(raw==='')continue;
+        const v=parseFloat(raw); if(!isNaN(v)){SUBM[sid]=SUBM[sid]||{}; SUBM[sid][mi]=v; n++;}}
       continue;
     }
     if(id<1||id>ACTIVITIES.length)continue;
@@ -418,8 +392,8 @@ function status(a,m){
 const fmt=v=>v==null?'–':(Math.round(v*100)/100).toLocaleString('th-TH');
 const WS_DONE='เสร็จสิ้น',WS_DOING='อยู่ระหว่างดำเนินการ',WS_NOT='ยังไม่ดำเนินการ';
 function workStatus(id,m){const v=actualAt(id,m); if(v==null)return ''; if(v>=100)return WS_DONE; if(v>0)return WS_DOING; return WS_NOT;}
-function subStatusAt(sid,m){const sm=SUBM[sid]||{}; let r=''; for(let i=0;i<=m;i++){if(sm[i])r=sm[i];} return r;} // สถานะล่าสุด ≤ เดือนที่เลือก
-function gStatusCls(s){return s===WS_DONE?'gs-done':s===WS_DOING?'gs-doing':s===WS_NOT?'gs-todo':'';}
+function subActualAt(sid,m){const sm=SUBM[sid]||{}; let v=null; for(let i=0;i<=m;i++){if(sm[i]!=null)v=sm[i];} return v;} // ผลจริง % ล่าสุด ≤ เดือนที่เลือก
+function subStatusAt(sid,m){const v=subActualAt(sid,m); if(v==null)return ''; if(v>=100)return WS_DONE; if(v>0)return WS_DOING; return WS_NOT;}
 function wsChip(s){
   if(s===WS_DONE)return `<span class="chip g">✓ ${WS_DONE}</span>`;
   if(s===WS_DOING)return `<span class="chip b">⟳ ${WS_DOING}</span>`;
@@ -442,7 +416,7 @@ function renderKPIs(){
      <div class="val">${fmt(v)}<small> %</small></div><div class="sub">${v==null?'ยังไม่มีข้อมูลผลงานจริง':'จากรายงานผลการดำเนินงาน'}</div></div>
    <div class="kpi ${dCls}" style="--accent:${d==null?'var(--muted)':d>=0?'var(--green)':'var(--red)'}"><div class="lbl">ผลต่าง (ผลงาน − เป้าหมาย)</div>
      <div class="val">${dTxt}<small>${d==null?'':' จุด'}</small></div><div class="sub">${d==null?'รอข้อมูลผลงาน':d>=0?'ดำเนินงานเป็นไปตามแผน':'ต่ำกว่าเป้าหมาย'}</div></div>
-   <div class="kpi" style="--accent:var(--green)"><div class="lbl">สถานะเทียบแผน (5 หมวดงาน)</div>
+   <div class="kpi" style="--accent:var(--green)"><div class="lbl">สถานะเทียบแผน (4 หมวดงาน)</div>
      <div class="val" style="font-size:1.25rem;display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
        <span class="chip g">✓ ${g}</span><span class="chip a">! ${a}</span><span class="chip r">✕ ${r}</span><span class="chip n">○ ${n}</span></div>
      <div class="sub" style="margin-top:6px">ตามแผน · ล่าช้าเล็กน้อย · ล่าช้า · ยังไม่ถึงกำหนด/รอผล</div></div>
@@ -522,12 +496,9 @@ function renderBar(){
 function ganttHTML(a){
   const done=a.subs.filter(sub=>subStatusAt(sub.c,curM)===WS_DONE).length;
   const cnt=` · เสร็จสิ้น ${done}/${a.subs.length} รายการ ณ ${MONTHS[curM].a} ${MONTHS[curM].y}`;
-  let h=`<div class="gtitle">กิจกรรมย่อย ผู้รับผิดชอบ และความก้าวหน้ารายเดือน${cnt} · แต่ละเดือนมี <b>แท่งบน</b> <span style="color:#e0820c">ส้ม</span>=เป้าหมายตามแผน · <b>แท่งล่าง</b> <span style="color:#067647">เขียว</span>=ผลปฏิบัติงานจริง · <span style="color:var(--red)">แถวขีดแดง=ล่าช้ากว่าแผน</span> · ช่องที่มีจุด ● คลิกดูรายละเอียด</div><table class="gantt">`;
-  // แถวจัดกลุ่มปีงบประมาณ
-  h+=`<tr><th class="gname"></th><th class="yr" colspan="12">ปี 2569</th><th class="yr ydiv" colspan="3">ปี 2570</th><th></th></tr>`;
-  // แถวชื่อเดือน
+  let h=`<div class="gtitle">กิจกรรมย่อย ผู้รับผิดชอบ และความก้าวหน้ารายเดือน${cnt} · แต่ละช่อง <b style="color:#a8842a">บน</b>=เป้าหมาย% <b style="color:#006b3f">ล่าง</b>=ผลจริง% · <span style="color:var(--red)">แถวขีดแดง=ล่าช้ากว่าแผน</span> · คลิกช่องดูรายละเอียด</div><table class="gantt">`;
   h+='<tr><th class="gname"></th>';
-  for(let i=0;i<NM;i++)h+=`<th class="${i===Y2570_START?'ydiv':''}"${i===curM?' style="color:var(--navy);font-weight:700"':''}>${MONTHS[i].a}</th>`;
+  for(let i=0;i<NM;i++)h+=`<th${i===curM?' style="color:var(--navy);font-weight:700"':''}>${MONTHS[i].a}</th>`;
   h+='<th style="width:120px">สถานะ</th></tr>';
   // แถวผลการดำเนินงานรายเดือนของหมวดหลัก
   const rec=ACTUAL[a.id]||{};
@@ -535,17 +506,17 @@ function ganttHTML(a){
     h+=`<tr style="background:var(--orange-soft)"><td class="gname" style="font-weight:700">ผลการดำเนินงานรายเดือน (% สะสม)</td>`;
     for(let i=0;i<NM;i++){const e=rec[i];
       if(e&&(e.v!=null||e.d))
-        h+=`<td class="${i===Y2570_START?'ydiv':''}"><div class="mcell mv ${e.d?'hasd':''}" data-id="${a.id}" data-m="${i}" title="คลิกดูรายละเอียด">${e.v!=null?fmt(e.v):'•'}</div></td>`;
-      else h+=`<td class="${i===Y2570_START?'ydiv':''}"></td>`;}
+        h+=`<td><div class="mcell mv ${e.d?'hasd':''}" data-id="${a.id}" data-m="${i}" title="คลิกดูรายละเอียด">${e.v!=null?fmt(e.v):'•'}</div></td>`;
+      else h+='<td></td>';}
     h+='<td></td></tr>';
   }
   for(const sub of a.subs){
-    const s=SUB[sub.c]||null, sm=SUBM[sub.c]||{};
-    const noteLine=s&&(s.note||s.issue)
-      ?`<div style="font-size:.72rem;color:var(--muted);margin-top:2px">${s.note?'▸ '+s.note:''}${s.issue?' <span style="color:var(--amber)">⚠ '+s.issue+'</span>':''}</div>`:'';
-    h+=`<tr${isLateSub(sub,curM)?' class="late-row"':''}><td class="gname"><b>${sub.c}</b> ${sub.n}<div><span class="owner">ผู้รับผิดชอบ: ${sub.o}</span></div>${noteLine}</td>`;
-    for(let i=0;i<NM;i++){const planned=(i>=sub.s&&i<=sub.e), st=sm[i]||'', hasD=!!st;
-      h+=`<td class="${i===Y2570_START?'ydiv':''}"><div class="g2 ${i===curM?'now':''} ${hasD?'mcell gd':''}"${hasD?` data-sub="${sub.c}" data-m="${i}" title="คลิกดูรายละเอียด"`:''}><div class="gp ${planned?'on':''}"></div><div class="ga ${hasD?'on':''}"></div></div></td>`;}
+    h+=`<tr${isLateSub(sub,curM)?' class="late-row"':''}><td class="gname"><b>${sub.c}</b> ${sub.n}<div><span class="owner">ผู้รับผิดชอบ: ${sub.o}</span></div></td>`;
+    for(let i=0;i<NM;i++){
+      const tgt=sub.target[i], act=(SUBM[sub.c]||{})[i];
+      const hasAny=tgt!=null||act!=null;
+      h+=`<td><div class="msub ${i===curM?'now':''} ${hasAny?'mcell gd':''}"${hasAny?` data-sub="${sub.c}" data-m="${i}" title="คลิกดูรายละเอียด"`:''}><span class="t">${tgt!=null?fmt(tgt):'–'}</span><span class="a">${act!=null?fmt(act):'–'}</span></div></td>`;
+    }
     h+=`<td style="text-align:center">${wsChip(subStatusAt(sub.c,curM))}</td></tr>`;
   }
   h+='</table>';
@@ -577,10 +548,9 @@ function renderTable(){
 }
 
 /* ===== ตรวจจับกิจกรรมย่อยที่ล่าช้ากว่าแผน ===== */
-function subPlanCount(sub){return sub.e-sub.s+1;}
-function subActDoneInPlan(sub){const sm=SUBM[sub.c]||{};let c=0;for(let i=sub.s;i<=sub.e;i++)if(sm[i]!=null&&sm[i]!=="")c++;return c;}
-function isLateSub(sub,m){if(!hasActual)return false;if(m<=sub.e)return false;return subStatusAt(sub.c,m)!==WS_DONE;}
-function lateSubs(m){const out=[];for(const a of ACTIVITIES)for(const sub of a.subs){if(isLateSub(sub,m))out.push({aid:a.id,c:sub.c,nm:sub.n,last:sub.e,pc:subPlanCount(sub),acc:subActDoneInPlan(sub),months:m-sub.e});}return out;}
+function dueMonthIdx(sub){return sub.target.findIndex(v=>v===100);} // เดือนแรกที่เป้าหมายถึง 100% = ครบกำหนด
+function isLateSub(sub,m){if(!hasActual)return false; const t=sub.target[m]; if(t!==100)return false; const v=subActualAt(sub.c,m); return v==null||v<100;}
+function lateSubs(m){const out=[];for(const a of ACTIVITIES)for(const sub of a.subs){if(isLateSub(sub,m)){const due=dueMonthIdx(sub); const v=subActualAt(sub.c,m); out.push({aid:a.id,c:sub.c,nm:sub.n,due,dueLabel:sub.due,acc:v==null?0:v,months:m-due});}}return out;}
 function renderLate(){
   const card=document.getElementById("lateCard"),el=document.getElementById("lateBody");if(!card||!el)return;
   card.style.display="";
@@ -588,7 +558,8 @@ function renderLate(){
   if(!list.length){el.innerHTML=`<div class="lateempty">\u2713 ไม่มีกิจกรรมย่อยที่ล่าช้ากว่าแผน ณ ${mLabel(curM)}</div>`;return;}
   let h='<ul class="latelist">';
   for(const it of list){
-    h+=`<li><span class="lt-name"><b>${it.c}</b> ${it.nm} <span class="lt-sub">(หมวดที่ ${it.aid})</span></span><span class="lt-meta">ครบกำหนด ${mLabel(it.last)} · ทำแล้ว ${it.acc}/${it.pc} เดือนตามแผน · เลยมา ${it.months} เดือน</span></li>`;
+    const due=it.dueLabel||mLabel(it.due);
+    h+=`<li><span class="lt-name"><b>${it.c}</b> ${it.nm} <span class="lt-sub">(หมวดที่ ${it.aid})</span></span><span class="lt-meta">ครบกำหนด ${due} · ผลจริงล่าสุด ${fmt(it.acc)}% · เลยมา ${it.months} เดือน</span></li>`;
   }
   el.innerHTML=h+"</ul>";
 }
@@ -615,7 +586,13 @@ function bindModal(){
       const sid=t.dataset.sub;
       let ent=null; for(const a of ACTIVITIES){const f=a.subs.find(x=>x.c===sid); if(f){ent=f;break;}}
       title=ent?(ent.c+' '+ent.n):('กิจกรรมย่อย '+sid);
-      body=esc((SUBM[sid]||{})[m])||'<i>ไม่มีรายละเอียด</i>';
+      const tgt=ent?ent.target[m]:null, act=(SUBM[sid]||{})[m];
+      body=`<div style="display:flex;gap:8px;flex-wrap:wrap">`
+          +`<div class="mpct" style="background:#fdf6e8;color:#a8842a;border-color:#ecd9af">เป้าหมาย ${tgt!=null?fmt(tgt)+'%':'ยังไม่ถึงกำหนด'}</div>`
+          +`<div class="mpct" style="background:#e9f7f1;color:#006b3f;border-color:#b7e4cf">ผลจริง ${act!=null?fmt(act)+'%':'ยังไม่รายงาน'}</div></div>`
+          +(ent&&ent.output?`<div style="margin-top:10px"><b>ผลผลิต:</b> ${esc(String(ent.output))}</div>`:'')
+          +(ent&&ent.due?`<div style="margin-top:6px"><b>กำหนดเวลาแล้วเสร็จ:</b> ${esc(String(ent.due))}</div>`:'')
+          +(ent&&ent.o?`<div style="margin-top:6px"><b>ผู้รับผิดชอบ:</b> ${esc(String(ent.o))}</div>`:'');
     }else{
       const id=parseInt(t.dataset.id), a=ACTIVITIES.find(x=>x.id===id);
       title=`${id}. ${a?a.name:''}`;
