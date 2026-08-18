@@ -69,6 +69,36 @@ select#monthSel{font-family:'Sarabun';font-size:.88rem;font-weight:600;padding:1
 @media(max-width:980px){.grid2{grid-template-columns:1fr}}
 .chartbox{position:relative;height:330px}
 
+/* ===== CSA Dashboard mockup-link card ===== */
+.csa-mock{display:flex;flex-direction:column;height:280px;text-decoration:none;color:inherit;
+  border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:box-shadow .2s,transform .2s}
+.csa-mock:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.csa-mock:focus-visible{outline:3px solid var(--navy2);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.csa-mock{transition:none}.csa-mock:hover{transform:none}}
+.csa-mock-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--mint);border-bottom:1px solid var(--line);flex:none}
+.csa-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.csa-dot.r{background:var(--red)} .csa-dot.a{background:var(--amber)} .csa-dot.g{background:var(--green)}
+.csa-mock-url{flex:1;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;
+  font-size:.68rem;color:var(--muted);letter-spacing:.2px;margin-left:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.csa-mock-body{flex:1;padding:18px 18px 14px;display:flex;flex-direction:column;gap:16px;background:var(--card)}
+.csa-stats{display:flex;justify-content:space-between;gap:8px}
+.csa-stat{flex:1;text-align:center}
+.csa-stat b{display:block;font-size:1.3rem;font-weight:800;color:var(--navy)}
+.csa-stat span{font-size:.68rem;color:var(--muted)}
+.csa-riskbar{height:10px;border-radius:999px;overflow:hidden;display:flex;background:var(--mint)}
+.csa-riskbar i{display:block;height:100%}
+.csa-riskbar .csa-r{background:var(--red)} .csa-riskbar .csa-a{background:var(--amber)} .csa-riskbar .csa-g{background:var(--green)}
+.csa-risklegend{display:flex;gap:14px;flex-wrap:wrap;font-size:.7rem;color:var(--muted)}
+.csa-dot2{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:-1px}
+.csa-dot2.r{background:var(--red)} .csa-dot2.a{background:var(--amber)} .csa-dot2.g{background:var(--green)}
+.csa-cta{margin-top:auto;background:var(--navy2);color:#fff;text-align:center;font-weight:700;font-size:.85rem;
+  padding:13px;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:8px;transition:filter .2s}
+.csa-mock:hover .csa-cta{filter:brightness(1.12)}
+.csa-arrow{transition:transform .2s}
+.csa-mock:hover .csa-arrow{transform:translate(3px,-3px)}
+@media(prefers-reduced-motion:reduce){.csa-cta,.csa-arrow{transition:none}.csa-mock:hover .csa-arrow{transform:none}}
+html[data-theme="dark"] .csa-cta{color:#0a0c19}
+
 /* ===== Table : Clean UI + zebra ===== */
 table.acts{width:100%;border-collapse:collapse;font-size:.88rem}
 table.acts th{background:var(--mint);color:var(--navy);font-weight:700;padding:12px 12px;text-align:center;font-size:.76rem;letter-spacing:.2px}
@@ -245,10 +275,29 @@ html[data-theme="dark"] .tt-thumb{background:#E7E9FA}
       <div class="desc">เป้าหมายสะสมถ่วงน้ำหนักตามแผน เทียบกับผลการดำเนินงานจริง (ร้อยละ)</div>
       <div class="chartbox"><canvas id="scurve"></canvas></div>
     </div>
-    <div class="card">
-      <h2>ความก้าวหน้ารายหมวดงาน</h2>
-      <div class="desc" id="barDesc">เป้าหมาย vs ผลงาน ของแต่ละหมวดงาน (ร้อยละของหมวด)</div>
-      <div class="chartbox"><canvas id="actbar"></canvas></div>
+    <div class="card csa-card">
+      <h2>CSA Dashboard 2569</h2>
+      <div class="desc">Dashboard การประเมินการควบคุมภายในด้วยตนเอง (CSA) งวดปี 2569 ของ กฟน.</div>
+      <a class="csa-mock" href="https://atomnet18-lang.github.io/csa-dashboard-2569/" target="_blank" rel="noopener noreferrer" aria-label="เปิด CSA Dashboard 2569 ในแท็บใหม่">
+        <div class="csa-mock-bar">
+          <span class="csa-dot r"></span><span class="csa-dot a"></span><span class="csa-dot g"></span>
+          <span class="csa-mock-url">csa-dashboard-2569.github.io</span>
+        </div>
+        <div class="csa-mock-body">
+          <div class="csa-stats">
+            <div class="csa-stat"><b>57</b><span>หน่วยงาน</span></div>
+            <div class="csa-stat"><b>212</b><span>กระบวนงาน</span></div>
+            <div class="csa-stat"><b>31,028</b><span>รายการความเสี่ยง</span></div>
+          </div>
+          <div class="csa-riskbar"><i class="csa-r" style="width:20.3%"></i><i class="csa-a" style="width:34.2%"></i><i class="csa-g" style="width:45.5%"></i></div>
+          <div class="csa-risklegend">
+            <span><i class="csa-dot2 r"></i>เสี่ยงสูง 20.3%</span>
+            <span><i class="csa-dot2 a"></i>ปานกลาง 34.2%</span>
+            <span><i class="csa-dot2 g"></i>ต่ำ</span>
+          </div>
+        </div>
+        <div class="csa-cta">เปิด CSA Dashboard 2569 <span class="csa-arrow">↗</span></div>
+      </a>
     </div>
   </div>
 
@@ -444,7 +493,7 @@ function loadActual(text){
 }
 
 /* ================= Rendering ================= */
-let curM=5, scurveChart=null, barChart=null, hasActual=false;
+let curM=5, scurveChart=null, hasActual=false;
 
 function status(a,m){
   const t=planAt(a,m), v=actualAt(a.id,m);
@@ -516,25 +565,6 @@ function renderScurve(){
      x:{ticks:{font:{family:'Sarabun',size:11},maxRotation:0,autoSkip:false},grid:{display:false}}}}});
 }
 
-function renderBar(){
-  document.getElementById('barDesc').textContent=`เป้าหมาย vs ผลงานของแต่ละหมวดงาน ณ ${mLabel(curM)} (ร้อยละของหมวด)`;
-  const labels=ACTIVITIES.map(a=>'หมวดที่ '+a.id);
-  const t=ACTIVITIES.map(a=>planAt(a,curM));
-  const v=ACTIVITIES.map(a=>actualAt(a.id,curM));
-  if(barChart)barChart.destroy();
-  barChart=new Chart(document.getElementById('actbar'),{type:'bar',
-   data:{labels,datasets:[
-    {label:'เป้าหมาย',data:t,backgroundColor:'#B7791F',borderRadius:4,barPercentage:.85},
-    {label:'ผลงาน',data:v,backgroundColor:'#178A4C',borderRadius:4,barPercentage:.85}]},
-   options:{indexAxis:'y',maintainAspectRatio:false,
-    plugins:{legend:{labels:{font:{family:'Sarabun',size:12}}},
-     tooltip:{titleFont:{family:'Sarabun'},bodyFont:{family:'Sarabun'},
-      callbacks:{title:items=>{const a=ACTIVITIES[items[0].dataIndex];return 'หมวดที่ '+a.id+' '+a.name.slice(0,60)+(a.name.length>60?'…':'');},
-                 label:c=>` ${c.dataset.label}: ${c.parsed.x??'–'}%`}}},
-    scales:{x:{min:0,max:100,ticks:{callback:v=>v+'%',font:{family:'Sarabun'}},grid:{color:'#eef1f5'}},
-     y:{ticks:{font:{family:'Sarabun',size:11}},grid:{display:false}}}}});
-}
-
 function ganttHTML(a){
   const done=a.subs.filter(sub=>subStatusAt(sub.c,curM)===WS_DONE).length;
   const cnt=` · เสร็จสิ้น ${done}/${a.subs.length} รายการ ณ ${MONTHS[curM].a} ${MONTHS[curM].y}`;
@@ -593,7 +623,7 @@ function renderTable(){
 function dueMonthIdx(sub){return sub.target.findIndex(v=>v===100);} // เดือนแรกที่เป้าหมายถึง 100% = ครบกำหนด
 function isLateSub(sub,m){if(!hasActual)return false; const t=sub.target[m]; if(t!==100)return false; const v=subActualAt(sub.c,m); return v==null||v<100;}
 function lateSubs(m){const out=[];for(const a of ACTIVITIES)for(const sub of a.subs){if(isLateSub(sub,m)){const due=dueMonthIdx(sub); const v=subActualAt(sub.c,m); out.push({aid:a.id,c:sub.c,nm:sub.n,due,dueLabel:sub.due,acc:v==null?0:v,months:m-due});}}return out;}
-function renderAll(){renderScurve();renderBar();renderTable();}
+function renderAll(){renderScurve();renderTable();}
 
 /* ---- Popup รายละเอียดรายเดือน ---- */
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>');
