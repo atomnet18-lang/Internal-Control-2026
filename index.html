@@ -10,22 +10,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
-  --navy:#20362A; --navy2:#3F7A4E; --orange:#C98A2B; --orange-soft:#FBF1DC;
-  --bg:#EFF6EC; --card:#ffffff; --line:#E4EEE1; --text:#22332A; --muted:#637469;
-  --green:#2F6844; --green-bg:#DCEEDA; --amber:#8E5F17; --amber-bg:#FBF0DA;
-  --red:#B23B3B; --red-bg:#FBE3E1; --blue:#2E7D8C; --blue-bg:#E1F1F3;
-  --mint:#E7F3E3; --mint2:#DCEEDA;
-  --shadow:0 10px 26px rgba(31,45,34,.09),0 2px 8px rgba(31,45,34,.06);
-  --shadow-sm:0 4px 14px rgba(31,45,34,.08);
+  --navy:#1B1E33; --navy2:#535ACE; --orange:#B7791F; --orange-soft:#FBF0DA;
+  --bg:#F3F4FC; --card:#ffffff; --line:#E3E5F5; --text:#1F2237; --muted:#6B7094;
+  --green:#147C44; --green-bg:#E1F5EA; --amber:#946115; --amber-bg:#FBF0DA;
+  --red:#B23B3B; --red-bg:#FBE3E1; --blue:#4C5FD6; --blue-bg:#EDEFFC;
+  --mint:#EEF0FC; --mint2:#E3E6FA;
+  --shadow:0 10px 26px rgba(40,45,110,.10),0 2px 8px rgba(40,45,110,.06);
+  --shadow-sm:0 4px 14px rgba(40,45,110,.09);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:linear-gradient(160deg,#9BC199 0%,#86B285 55%,#79A87C 100%)}
+html{background:linear-gradient(160deg,#E7E9FB 0%,#DEE1F7 55%,#D5D8F4 100%)}
 body{font-family:'Sarabun',sans-serif;color:var(--text);font-size:15px;-webkit-font-smoothing:antialiased;min-height:100vh;
-  background:linear-gradient(160deg,#9BC199 0%,#86B285 55%,#79A87C 100%);
+  background:linear-gradient(160deg,#E7E9FB 0%,#DEE1F7 55%,#D5D8F4 100%);
   background-attachment:fixed;padding:26px 26px 40px;display:flex;justify-content:center}
 
-/* ===== App shell: one big white rounded card holding the whole dashboard ===== */
-.app-shell{width:100%;max-width:1400px;background:#FBFDFA;border-radius:32px;box-shadow:0 30px 70px rgba(20,40,25,.25)}
+/* ===== App shell: one big rounded card holding the whole dashboard ===== */
+.app-shell{width:100%;max-width:1400px;background:#FDFDFF;border-radius:32px;box-shadow:0 30px 70px rgba(35,40,100,.18)}
 .wrap{max-width:1360px;margin:0 auto;padding:0 28px 40px}
 
 /* ===== Header : clean fintech style ===== */
@@ -35,7 +35,7 @@ header{background:#fff;padding:22px 0 20px;border-bottom:1px solid var(--line);p
 .htitle p{font-size:.85rem;color:var(--muted);margin-top:4px;font-weight:400;letter-spacing:.2px}
 .dept{display:inline-block;font-size:.72rem;font-weight:700;color:var(--navy2);letter-spacing:.4px;margin-bottom:6px;
   background:var(--mint);padding:3px 12px;border-radius:20px}
-.badge-iso{display:inline-block;background:var(--mint2);border:1px solid #c9e4c5;color:var(--navy2);font-size:.68rem;padding:3px 13px;border-radius:20px;margin-top:10px;font-weight:700;letter-spacing:1px}
+.badge-iso{display:inline-block;background:var(--mint2);border:1px solid #D6D9F5;color:var(--navy2);font-size:.68rem;padding:3px 13px;border-radius:20px;margin-top:10px;font-weight:700;letter-spacing:1px}
 .hbrand{display:flex;align-items:center;gap:16px}
 .hlogo{width:56px;height:56px;border-radius:16px;background:var(--mint);padding:6px;box-shadow:none;flex:none;object-fit:contain}
 .hctrl{display:flex;align-items:center;gap:16px}
@@ -48,10 +48,10 @@ select#monthSel{font-family:'Sarabun';font-size:.88rem;font-weight:600;padding:1
 .theme-toggle input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .tt-track{position:relative;width:44px;height:24px;border-radius:14px;flex:none;
   background:var(--mint2);border:1px solid var(--line);
-  box-shadow:inset 0 1px 3px rgba(31,45,34,.12);transition:background .25s}
+  box-shadow:inset 0 1px 3px rgba(40,45,110,.14);transition:background .25s}
 .tt-thumb{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
   background:#fff;
-  box-shadow:0 1px 3px rgba(31,45,34,.25);
+  box-shadow:0 1px 3px rgba(40,45,110,.3);
   transition:transform .25s}
 .theme-toggle input:checked ~ .tt-track{background:var(--navy2)}
 .theme-toggle input:checked ~ .tt-track .tt-thumb{transform:translateX(20px)}
@@ -77,15 +77,15 @@ table.acts th:last-child{border-radius:0 12px 12px 0}
 table.acts td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:middle;text-align:center}
 table.acts td.name{text-align:left;font-weight:500;max-width:420px}
 table.acts tr.main{cursor:pointer;transition:background .15s}
-table.acts tr.main:nth-child(4n+3){background:#F6FAF4}
+table.acts tr.main:nth-child(4n+3){background:#F6F6FD}
 table.acts tr.main:hover{background:var(--mint)}
 .caret{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:8px;background:var(--mint);color:var(--navy2);font-size:.68rem;margin-right:9px;transition:transform .2s;flex:none}
 tr.open .caret{transform:rotate(90deg)}
 .nm{display:flex;align-items:flex-start}
 .outp{font-size:.73rem;color:var(--muted);margin-top:3px;font-weight:400}
-.pbar{background:var(--mint);border-radius:20px;height:9px;width:110px;margin:0 auto;overflow:hidden;box-shadow:inset 0 1px 2px rgba(31,45,34,.10)}
+.pbar{background:var(--mint);border-radius:20px;height:9px;width:110px;margin:0 auto;overflow:hidden;box-shadow:inset 0 1px 2px rgba(40,45,110,.12)}
 .pbar i{display:block;height:100%;border-radius:20px;position:relative;overflow:hidden;
-  background:linear-gradient(90deg,#3F7A4E,#5FA46E,#3F7A4E)}
+  background:linear-gradient(90deg,#178A4C,#2FAE6C,#178A4C)}
 .pbar i::after{content:'';position:absolute;inset:0;
   background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.75) 45%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.75) 55%,transparent 80%);
   background-size:200% 100%;animation:pbarShine 2.6s linear infinite}
@@ -96,16 +96,16 @@ tr.open .caret{transform:rotate(90deg)}
 
 /* ===== Badges : soft pill bg + colored text (fintech style) ===== */
 .chip{display:inline-block;padding:4px 14px;border-radius:999px;font-size:.72rem;font-weight:700;white-space:nowrap;border:1px solid transparent}
-.chip.g{background:var(--green-bg);color:var(--green);border-color:#bfe3c6}
+.chip.g{background:var(--green-bg);color:var(--green);border-color:#bfe6cf}
 .chip.a{background:var(--amber-bg);color:var(--amber);border-color:#efd9a6}
 .chip.r{background:var(--red-bg);color:var(--red);border-color:#f3c6c3}
-.chip.n{background:#EEF3EC;color:#5B6B60;border-color:var(--line)}
-.chip.b{background:var(--blue-bg);color:var(--blue);border-color:#bfe1e6}
-.wchip{background:var(--mint);color:var(--navy2);font-weight:700;border-radius:999px;padding:4px 12px;font-size:.78rem;border:1px solid #cfe6cc}
+.chip.n{background:#EEF0FA;color:#5A5F7A;border-color:var(--line)}
+.chip.b{background:var(--blue-bg);color:var(--blue);border-color:#c7cdf5}
+.wchip{background:var(--mint);color:var(--navy2);font-weight:700;border-radius:999px;padding:4px 12px;font-size:.78rem;border:1px solid #D6D9F5}
 .owner{display:inline-block;background:var(--orange-soft);color:#7a531a;border:1px solid #f0dfb0;border-radius:999px;padding:2px 10px;font-size:.7rem;font-weight:600;margin-top:4px}
 
 /* ===== Sub rows / Gantt ===== */
-tr.sub td{background:#F8FBF6;padding:0}
+tr.sub td{background:#F7F7FD;padding:0}
 .subwrap{padding:14px 18px 18px 46px;overflow-x:auto}
 .gtitle{font-size:.76rem;font-weight:700;color:var(--muted);margin-bottom:10px;letter-spacing:.2px}
 table.gantt{width:100%;border-collapse:collapse;font-size:.8rem;min-width:760px}
@@ -113,17 +113,17 @@ table.gantt th{font-size:.67rem;color:var(--muted);font-weight:600;padding:4px 2
 table.gantt th.gname{text-align:left;width:auto;min-width:240px}
 table.gantt th.yr{color:var(--navy);font-weight:700;font-size:.72rem;border-bottom:1px solid var(--line);padding-bottom:3px}
 table.gantt td{padding:5px 2px;border-bottom:1px solid var(--line)}
-table.gantt tr:nth-child(even) td{background:#F6FAF4}
+table.gantt tr:nth-child(even) td{background:#F6F6FD}
 table.gantt td.gname{text-align:left;color:var(--text);padding-right:10px}
 table.gantt td{position:relative}
 .msub{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:26px;border-radius:8px;padding:2px 0;font-size:.66rem;font-weight:700;line-height:1.15;background:var(--mint)}
-.msub .t{color:#866623}
-.msub .a{color:#2F6844}
+.msub .t{color:#946115}
+.msub .a{color:#147C44}
 .msub.now{outline:2px solid var(--navy2);outline-offset:1px}
 .msub.gd{cursor:pointer}
 .msub.gd:hover{outline:1px solid var(--navy2)}
 table.gantt tr.late-row td.gname{box-shadow:inset 3px 0 0 var(--red);font-weight:600}
-.note{margin-top:12px;font-size:.8rem;background:var(--blue-bg);border-left:3px solid var(--blue);padding:9px 13px;border-radius:0 10px 10px 0;color:#1c5560}
+.note{margin-top:12px;font-size:.8rem;background:var(--blue-bg);border-left:3px solid var(--blue);padding:9px 13px;border-radius:0 10px 10px 0;color:#2d3785}
 .issue{margin-top:8px;font-size:.8rem;background:var(--amber-bg);border-left:3px solid var(--amber);padding:9px 13px;border-radius:0 10px 10px 0;color:#7a5313}
 
 /* ===== legend + footer ===== */
@@ -134,17 +134,17 @@ footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:30px;lin
 @media print{.hctrl{display:none}body{background:#fff}.card{break-inside:avoid;box-shadow:none}}
 
 /* ===== Monthly detail popup ===== */
-.modal-bg{position:fixed;inset:0;background:rgba(20,35,25,.45);display:none;align-items:center;justify-content:center;z-index:90;padding:20px;backdrop-filter:blur(4px)}
+.modal-bg{position:fixed;inset:0;background:rgba(14,15,32,.5);display:none;align-items:center;justify-content:center;z-index:90;padding:20px;backdrop-filter:blur(4px)}
 .modal{position:relative;background:#fff;border-radius:24px;max-width:560px;width:100%;padding:26px 28px;
-  box-shadow:0 24px 60px rgba(20,35,25,.35)}
+  box-shadow:0 24px 60px rgba(35,40,100,.28)}
 .md-title{font-weight:700;color:var(--navy);font-size:1rem;line-height:1.5}
 .md-month{font-size:.8rem;color:var(--navy2);font-weight:700;margin:5px 0 12px;letter-spacing:.3px}
 .md-body{font-size:.9rem;line-height:1.75;max-height:50vh;overflow:auto;color:var(--text)}
-.mpct{display:inline-block;background:var(--mint);color:var(--navy2);font-weight:700;border-radius:999px;padding:4px 14px;margin-bottom:9px;border:1px solid #cfe6cc}
+.mpct{display:inline-block;background:var(--mint);color:var(--navy2);font-weight:700;border-radius:999px;padding:4px 14px;margin-bottom:9px;border:1px solid #D6D9F5}
 .md-close{margin-top:18px;font-family:'Sarabun';background:var(--navy2);color:#fff;border:none;border-radius:999px;padding:10px 28px;cursor:pointer;font-size:.85rem;letter-spacing:.3px}
 .md-close:hover{background:var(--navy)}
 .mcell{cursor:pointer}
-.mv{position:relative;background:var(--mint);color:var(--navy2);font-weight:700;border-radius:8px;padding:2px 0;font-size:.74rem;text-align:center;border:1px solid #cfe6cc}
+.mv{position:relative;background:var(--mint);color:var(--navy2);font-weight:700;border-radius:8px;padding:2px 0;font-size:.74rem;text-align:center;border:1px solid #D6D9F5}
 .mv:hover{background:var(--mint2)}
 .mv.hasd::after{content:'';position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--orange);border:1.5px solid #fff}
 
@@ -159,43 +159,53 @@ tr.main:focus-visible,.mcell:focus-visible,.md-close:focus-visible{
 }
 
 /* ===================================================================
-   Dark mode — toggled via [data-theme="dark"]
+   Dark mode — On-Chain Analytics tone (deep indigo-navy + glow) — [data-theme="dark"]
    =================================================================== */
 html[data-theme="dark"]{
-  background:linear-gradient(160deg,#0e1a13 0%,#0a140f 100%);
-  --navy:#E7F3E3; --navy2:#6FCB86; --orange:#E0A955; --orange-soft:#2a2410;
-  --bg:#0e1a13; --card:#12211a; --line:#22352a; --text:#E3EEE4; --muted:#8FA695;
-  --green:#6FCB86; --green-bg:#12331f; --amber:#F0BE6A; --amber-bg:#2c2410;
-  --red:#F09A94; --red-bg:#33191a; --blue:#7FCBD9; --blue-bg:#0f2a2e;
-  --mint:#17281f; --mint2:#1c3226;
-  --shadow:0 10px 26px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.4);
-  --shadow-sm:0 4px 14px rgba(0,0,0,.4);
+  background:radial-gradient(ellipse 900px 500px at 18% -8%, rgba(96,112,235,.30), transparent 55%),
+             radial-gradient(ellipse 800px 500px at 92% 8%, rgba(140,95,235,.22), transparent 55%),
+             linear-gradient(165deg,#090b17 0%,#0d1024 55%,#0a0c19 100%);
+  --navy:#F1F2FF; --navy2:#8B9DFF; --orange:#F0BE6A; --orange-soft:#231d10;
+  --bg:#0a0c19; --card:#12142A; --line:rgba(255,255,255,.09); --text:#E7E9FA; --muted:#8B93B4;
+  --green:#34D399; --green-bg:rgba(52,211,153,.14); --amber:#F0BE6A; --amber-bg:rgba(240,190,106,.14);
+  --red:#F0857D; --red-bg:rgba(240,133,125,.14); --blue:#8B9DFF; --blue-bg:rgba(139,157,255,.14);
+  --mint:rgba(139,157,255,.10); --mint2:rgba(139,157,255,.16);
+  --shadow:0 20px 60px rgba(90,100,230,.20),0 8px 24px rgba(0,0,0,.55);
+  --shadow-sm:0 14px 40px rgba(90,100,230,.16),0 4px 16px rgba(0,0,0,.5);
 }
-html[data-theme="dark"] body{background:linear-gradient(160deg,#0e1a13 0%,#0a140f 100%);color:var(--text)}
-html[data-theme="dark"] .app-shell{background:#0c1712;box-shadow:0 30px 70px rgba(0,0,0,.6)}
-html[data-theme="dark"] header{background:#0c1712;border-bottom-color:var(--line)}
-html[data-theme="dark"] .card{background:var(--card);border-color:var(--line)}
-html[data-theme="dark"] table.acts tr.main:nth-child(4n+3){background:#0f1d16}
+html[data-theme="dark"] body{
+  background:radial-gradient(ellipse 900px 500px at 18% -8%, rgba(96,112,235,.30), transparent 55%),
+             radial-gradient(ellipse 800px 500px at 92% 8%, rgba(140,95,235,.22), transparent 55%),
+             linear-gradient(165deg,#090b17 0%,#0d1024 55%,#0a0c19 100%);
+  color:var(--text)}
+html[data-theme="dark"] .app-shell{background:#0c0e1e;box-shadow:0 30px 90px rgba(70,80,220,.22),0 10px 40px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.06)}
+html[data-theme="dark"] header{background:rgba(18,20,42,.6);border-bottom-color:var(--line)}
+html[data-theme="dark"] .card{background:var(--card);border-color:var(--line);box-shadow:var(--shadow-sm)}
+html[data-theme="dark"] table.acts tr.main:nth-child(4n+3){background:rgba(139,157,255,.045)}
 html[data-theme="dark"] table.acts tr.main:hover{background:var(--mint)}
-html[data-theme="dark"] tr.sub td{background:#0d1712}
-html[data-theme="dark"] table.gantt tr:nth-child(even) td{background:#0f1d16}
+html[data-theme="dark"] tr.sub td{background:rgba(0,0,0,.18)}
+html[data-theme="dark"] table.gantt tr:nth-child(even) td{background:rgba(139,157,255,.045)}
 html[data-theme="dark"] table.gantt td{border-bottom-color:var(--line)}
 html[data-theme="dark"] .msub{background:var(--mint)}
-html[data-theme="dark"] .msub .t{color:#E0A955}
-html[data-theme="dark"] .msub .a{color:#6FCB86}
+html[data-theme="dark"] .msub .t{color:#F0BE6A}
+html[data-theme="dark"] .msub .a{color:#34D399}
 html[data-theme="dark"] .pbar{background:var(--mint)}
+html[data-theme="dark"] .pbar i{background:linear-gradient(90deg,#34D399,#5EE8B5,#34D399)}
 html[data-theme="dark"] .wchip{background:var(--mint);color:var(--navy2);border-color:var(--line)}
-html[data-theme="dark"] .chip.n{background:var(--mint);color:#c3d6c8;border-color:var(--line)}
+html[data-theme="dark"] .chip.n{background:var(--mint);color:#c3c8e6;border-color:var(--line)}
 html[data-theme="dark"] .src-tag{background:var(--mint);color:var(--muted)}
 html[data-theme="dark"] select#monthSel{background:var(--mint);color:var(--text);border-color:var(--line)}
 html[data-theme="dark"] .hlogo{background:var(--mint)}
 html[data-theme="dark"] .dept{background:var(--mint);color:var(--navy2)}
 html[data-theme="dark"] .badge-iso{background:var(--mint2);color:var(--navy2);border-color:var(--line)}
 html[data-theme="dark"] .legend{border-top-color:var(--line)}
-html[data-theme="dark"] .note{background:var(--blue-bg);color:#bfe6ee}
-html[data-theme="dark"] .issue{background:var(--amber-bg);color:#f0dcae}
-html[data-theme="dark"] .modal{background:var(--card)}
+html[data-theme="dark"] .note{background:var(--blue-bg);color:#c7cdf7}
+html[data-theme="dark"] .issue{background:var(--amber-bg);color:#f5deac}
+html[data-theme="dark"] .modal{background:var(--card);box-shadow:0 24px 70px rgba(90,100,230,.32),0 10px 30px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08)}
+html[data-theme="dark"] .modal-bg{background:rgba(4,5,14,.65)}
 html[data-theme="dark"] .mv,html[data-theme="dark"] .mpct{background:var(--mint);color:var(--navy2);border-color:var(--line)}
+html[data-theme="dark"] .tt-track{box-shadow:inset 0 1px 3px rgba(0,0,0,.4)}
+html[data-theme="dark"] .tt-thumb{background:#E7E9FA}
 </style>
 </head>
 <body>
@@ -475,8 +485,8 @@ const blinkMonthPlugin={
       ctx.globalAlpha=0.30+0.70*t;ctx.fillStyle=color;ctx.fill();
     }
     ctx.save();
-    pulse(chart.getDatasetMeta(0),ds[0].data[curM],'#c9a13b');   // จุดเป้าหมาย (แผน)
-    pulse(chart.getDatasetMeta(1),ds[1].data[curM],'#006b3f');   // จุดผลทำงานจริง
+    pulse(chart.getDatasetMeta(0),ds[0].data[curM],'#B7791F');   // จุดเป้าหมาย (แผน)
+    pulse(chart.getDatasetMeta(1),ds[1].data[curM],'#178A4C');   // จุดผลทำงานจริง
     ctx.restore();
   }
 };
@@ -497,8 +507,8 @@ function renderScurve(){
   if(scurveChart)scurveChart.destroy();
   scurveChart=new Chart(document.getElementById('scurve'),{type:'line',plugins:[blinkMonthPlugin],
    data:{labels,datasets:[
-    {label:'เป้าหมายสะสม (แผน)',data:plan,borderColor:'#c9a13b',borderDash:[6,4],pointRadius:3,pointBackgroundColor:'#c9a13b',tension:.3,fill:false},
-    {label:'ผลงานสะสม (จริง)',data:act,borderColor:'#006b3f',backgroundColor:'rgba(0,107,63,.10)',pointRadius:4,pointBackgroundColor:'#006b3f',tension:.3,fill:true,spanGaps:false}]},
+    {label:'เป้าหมายสะสม (แผน)',data:plan,borderColor:'#B7791F',borderDash:[6,4],pointRadius:3,pointBackgroundColor:'#B7791F',tension:.3,fill:false},
+    {label:'ผลงานสะสม (จริง)',data:act,borderColor:'#178A4C',backgroundColor:'rgba(23,138,76,.10)',pointRadius:4,pointBackgroundColor:'#178A4C',tension:.3,fill:true,spanGaps:false}]},
    options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
     plugins:{legend:{labels:{font:{family:'Sarabun',size:12}}},
      tooltip:{titleFont:{family:'Sarabun'},bodyFont:{family:'Sarabun'},callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y??'–'}%`}}},
@@ -514,8 +524,8 @@ function renderBar(){
   if(barChart)barChart.destroy();
   barChart=new Chart(document.getElementById('actbar'),{type:'bar',
    data:{labels,datasets:[
-    {label:'เป้าหมาย',data:t,backgroundColor:'#c9a13b',borderRadius:4,barPercentage:.85},
-    {label:'ผลงาน',data:v,backgroundColor:'#006b3f',borderRadius:4,barPercentage:.85}]},
+    {label:'เป้าหมาย',data:t,backgroundColor:'#B7791F',borderRadius:4,barPercentage:.85},
+    {label:'ผลงาน',data:v,backgroundColor:'#178A4C',borderRadius:4,barPercentage:.85}]},
    options:{indexAxis:'y',maintainAspectRatio:false,
     plugins:{legend:{labels:{font:{family:'Sarabun',size:12}}},
      tooltip:{titleFont:{family:'Sarabun'},bodyFont:{family:'Sarabun'},
@@ -528,7 +538,7 @@ function renderBar(){
 function ganttHTML(a){
   const done=a.subs.filter(sub=>subStatusAt(sub.c,curM)===WS_DONE).length;
   const cnt=` · เสร็จสิ้น ${done}/${a.subs.length} รายการ ณ ${MONTHS[curM].a} ${MONTHS[curM].y}`;
-  let h=`<div class="gtitle">กิจกรรมย่อย ผู้รับผิดชอบ และความก้าวหน้ารายเดือน${cnt} · แต่ละช่อง <b style="color:#a8842a">บน</b>=เป้าหมาย% <b style="color:#006b3f">ล่าง</b>=ผลจริง% · <span style="color:var(--red)">แถวขีดแดง=ล่าช้ากว่าแผน</span> · คลิกช่องดูรายละเอียด</div><table class="gantt">`;
+  let h=`<div class="gtitle">กิจกรรมย่อย ผู้รับผิดชอบ และความก้าวหน้ารายเดือน${cnt} · แต่ละช่อง <b style="color:#946115">บน</b>=เป้าหมาย% <b style="color:#178A4C">ล่าง</b>=ผลจริง% · <span style="color:var(--red)">แถวขีดแดง=ล่าช้ากว่าแผน</span> · คลิกช่องดูรายละเอียด</div><table class="gantt">`;
   h+='<tr><th class="gname"></th>';
   for(let i=0;i<NM;i++)h+=`<th${i===curM?' style="color:var(--navy);font-weight:700"':''}>${MONTHS[i].a}</th>`;
   h+='<th style="width:120px">สถานะ</th></tr>';
@@ -601,8 +611,8 @@ function bindModal(){
       title=ent?(ent.c+' '+ent.n):('กิจกรรมย่อย '+sid);
       const tgt=ent?ent.target[m]:null, act=(SUBM[sid]||{})[m];
       body=`<div style="display:flex;gap:8px;flex-wrap:wrap">`
-          +`<div class="mpct" style="background:#fdf6e8;color:#a8842a;border-color:#ecd9af">เป้าหมาย ${tgt!=null?fmt(tgt)+'%':'ยังไม่ถึงกำหนด'}</div>`
-          +`<div class="mpct" style="background:#e9f7f1;color:#006b3f;border-color:#b7e4cf">ผลจริง ${act!=null?fmt(act)+'%':'ยังไม่รายงาน'}</div></div>`
+          +`<div class="mpct" style="background:#FBF0DA;color:#946115;border-color:#efd9a6">เป้าหมาย ${tgt!=null?fmt(tgt)+'%':'ยังไม่ถึงกำหนด'}</div>`
+          +`<div class="mpct" style="background:#E1F5EA;color:#147C44;border-color:#bfe6cf">ผลจริง ${act!=null?fmt(act)+'%':'ยังไม่รายงาน'}</div></div>`
           +(ent&&ent.output?`<div style="margin-top:10px"><b>ผลผลิต:</b> ${esc(String(ent.output))}</div>`:'')
           +(ent&&ent.due?`<div style="margin-top:6px"><b>กำหนดเวลาแล้วเสร็จ:</b> ${esc(String(ent.due))}</div>`:'')
           +(ent&&ent.o?`<div style="margin-top:6px"><b>ผู้รับผิดชอบ:</b> ${esc(String(ent.o))}</div>`:'');
