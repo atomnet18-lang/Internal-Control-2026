@@ -388,7 +388,7 @@ function buildPlans(){
     for(let m=0;m<NM;m++){
       let s=0;
       a.subs.forEach(sub=>{ s += (sub.target[m]??0)*sub.w; });
-      a.plan[m]=Math.round(s/totW);
+      a.plan[m]=Math.round(s/totW*100)/100;
     }
   });
 }
